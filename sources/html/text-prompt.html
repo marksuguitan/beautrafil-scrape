@@ -1,0 +1,782 @@
+<!DOCTYPE html>
+<!-- saved from url=(0044)https://platform.openai.com/docs/guides/text -->
+<html lang="en-US" class="dark" data-theme="dark" style="color-scheme: dark;"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        
+        <link rel="icon" type="image/png" href="https://platform.openai.com/favicon-platform.png">
+        <link rel="icon" type="image/svg+xml" href="https://platform.openai.com/favicon-platform.svg">
+        <link rel="preconnect" href="https://cdn.openai.com/">
+        <link rel="preconnect" href="https://owz3qoiija-dsn.algolia.net/" crossorigin="">
+        <!-- Preload critical fonts -->
+        <link rel="preload" href="https://cdn.openai.com/common/fonts/openai-sans/OpenAISans-Regular.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+        <link rel="preload" href="https://cdn.openai.com/common/fonts/openai-sans/OpenAISans-Semibold.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#000000">
+        <title>Text generation and prompting - OpenAI API</title>
+        <meta name="description" content="Learn how to use the OpenAI API to generate text from a prompt. Learn about message types and available text formats like JSON and Structured Outputs.">
+        <link rel="manifest" href="https://platform.openai.com/manifest.json">
+
+        <!-- Facebook / LinkedIn Meta Tags -->
+        <meta property="og:title" content="Text generation and prompting - OpenAI API">
+        <meta property="og:image" content="https://cdn.openai.com/API/images/platform-opengraph.png">
+        <meta property="og:description" content="Learn how to use the OpenAI API to generate text from a prompt. Learn about message types and available text formats like JSON and Structured Outputs.">
+        <meta property="og:type" content="website">
+        <meta property="og:url" content="https://platform.openai.com">
+
+        <!-- Twitter Meta Tags -->
+        <meta name="twitter:card" content="summary_large_image">
+        <meta property="twitter:domain" content="platform.openai.com">
+        <meta property="twitter:url" content="https://platform.openai.com">
+        <meta name="twitter:title" content="Text generation and prompting - OpenAI API">
+        <meta name="twitter:description" content="Learn how to use the OpenAI API to generate text from a prompt. Learn about message types and available text formats like JSON and Structured Outputs.">
+        <meta name="twitter:image" content="https://cdn.openai.com/API/images/platform-opengraph.png">
+      <script type="text/javascript" async="" src="./text-prompt_files/dgkjq2bp"></script><script nonce="" type="module" crossorigin="" src="./text-prompt_files/index-Ax-qpych.js"></script>
+      <link rel="stylesheet" crossorigin="" href="./text-prompt_files/DYeWvFWOBv.css">
+      <script nonce="" type="module">import.meta.url;import("_").catch(()=>1);(async function*(){})().next();if(location.protocol!="file:"){window.__vite_is_modern_browser=true}</script>
+      <script nonce="" type="module">!function(){if(window.__vite_is_modern_browser)return;console.warn("vite: loading legacy chunks, syntax error above and the same error below should be ignored");var e=document.getElementById("vite-legacy-polyfill"),n=document.createElement("script");n.src=e.src,n.onload=function(){System.import(document.getElementById('vite-legacy-entry').getAttribute('data-src'))},document.body.appendChild(n)}();</script>
+    <link rel="modulepreload" as="script" crossorigin="" href="https://platform.openai.com/static/DrSJOJ_1NH.js"><link rel="modulepreload" as="script" crossorigin="" href="https://platform.openai.com/static/Bd154cCKk2.js"><link rel="stylesheet" href="./text-prompt_files/Cxdcic5FgU.css"><link rel="stylesheet" href="./text-prompt_files/BIzaetRKef.css"><link rel="stylesheet" href="./text-prompt_files/BOJGmqj8x9.css"><link rel="modulepreload" as="script" crossorigin="" href="https://platform.openai.com/static/Dne7bdXFlz.js"><link rel="modulepreload" as="script" crossorigin="" href="https://platform.openai.com/static/CVyn5xfbdn.js"><link rel="modulepreload" as="script" crossorigin="" href="https://platform.openai.com/static/DANFc9p8JA.js"><link rel="modulepreload" as="script" crossorigin="" href="https://platform.openai.com/static/CuYY6l_AaF.js"><link rel="stylesheet" href="./text-prompt_files/BkdTKxcFRV.css"><link rel="modulepreload" as="script" crossorigin="" href="https://platform.openai.com/static/-7KjKuFwNA.js"><link rel="stylesheet" href="./text-prompt_files/DPRiIEM_Sh.css"><link rel="modulepreload" as="script" crossorigin="" href="https://platform.openai.com/static/DuO5zHLrK-.js"><link rel="stylesheet" href="./text-prompt_files/xDXiDaamco.css"><link rel="modulepreload" as="script" crossorigin="" href="https://platform.openai.com/static/HiTS0pkRZO.js"><link rel="modulepreload" as="script" crossorigin="" href="https://platform.openai.com/static/DwNRi1Y62w.js"><link rel="stylesheet" href="./text-prompt_files/BoFsvZBYvh.css"><link rel="modulepreload" as="script" crossorigin="" href="https://platform.openai.com/static/CY_8Gri7V0.js"><link rel="modulepreload" as="script" crossorigin="" href="https://platform.openai.com/static/CMWwawf11R.js"><link rel="modulepreload" as="script" crossorigin="" href="https://platform.openai.com/static/BjYOfcXsPR.js"><link rel="modulepreload" as="script" crossorigin="" href="https://platform.openai.com/static/Be_HYIOq7D.js"><link rel="modulepreload" as="script" crossorigin="" href="https://platform.openai.com/static/0vbeQ64Aqf.js"><link rel="modulepreload" as="script" crossorigin="" href="https://platform.openai.com/static/BRwLE0evFq.js"><link rel="stylesheet" href="./text-prompt_files/0XQOeb1Mw_.css"><link rel="modulepreload" as="script" crossorigin="" href="https://platform.openai.com/static/MAksSICrZq.js"><link rel="stylesheet" href="./text-prompt_files/BUSwN-JwO4.css"><link rel="modulepreload" as="script" crossorigin="" href="https://platform.openai.com/static/BJz9Mz1a4v.js"><link rel="modulepreload" as="script" crossorigin="" href="https://platform.openai.com/static/Cn1d-4xuSt.js"><link rel="stylesheet" href="./text-prompt_files/EYEbrXxc58.css"><link rel="modulepreload" as="script" crossorigin="" href="https://platform.openai.com/static/BEuXwFXEwx.js"><link rel="modulepreload" as="script" crossorigin="" href="https://platform.openai.com/static/DeHK5P3xxd.js"><link rel="stylesheet" href="./text-prompt_files/DmauzYno8H.css"><link rel="stylesheet" href="./text-prompt_files/CiQ8U0Gvbu.css"><link rel="modulepreload" as="script" crossorigin="" href="https://platform.openai.com/static/fSj4JHDMSI.js"><link rel="modulepreload" as="script" crossorigin="" href="https://platform.openai.com/static/Ces_G23BRc.js"><link rel="stylesheet" href="./text-prompt_files/CQrHNWQgoC.css"><link rel="stylesheet" href="./text-prompt_files/CvBt8eD336.css"><link rel="canonical" href="https://platform.openai.com/docs/guides/text"></head>
+    <body>
+        <div id="root"><div class="rl7uK"><div class="hDvly"><div class="vpev1"><span class="block _6fZQu"><a class="qcq-H" href="https://platform.openai.com/docs/overview"><svg fill="none" xmlns="http://www.w3.org/2000/svg" width="169" height="24" viewBox="0 0 169 24"><path d="M8.11 4.452C3.958 4.452.562 7.849.562 12c0 4.152 3.396 7.549 7.548 7.549 4.151 0 7.548-3.376 7.548-7.549A7.543 7.543 0 0 0 8.11 4.452Zm0 12.392c-2.58 0-4.655-2.118-4.655-4.844 0-2.725 2.076-4.843 4.655-4.843S12.765 9.275 12.765 12c0 2.726-2.076 4.844-4.655 4.844ZM23.29 8.645c-1.363 0-2.684.545-3.376 1.468V8.855h-2.726v14.677h2.726v-5.305c.692.86 1.971 1.321 3.376 1.321 2.935 0 5.242-2.306 5.242-5.451 0-3.145-2.307-5.452-5.242-5.452Zm-.461 8.534c-1.552 0-2.936-1.216-2.936-3.082 0-1.866 1.384-3.082 2.936-3.082 1.551 0 2.935 1.216 2.935 3.082 0 1.866-1.384 3.082-2.935 3.082ZM34.948 8.645c-2.977 0-5.325 2.328-5.325 5.452s2.054 5.451 5.41 5.451c2.746 0 4.507-1.656 5.052-3.522h-2.663c-.335.776-1.278 1.32-2.41 1.32-1.406 0-2.475-.985-2.727-2.39h7.926v-1.069c0-2.851-1.992-5.242-5.263-5.242Zm-2.642 4.382c.294-1.32 1.384-2.18 2.705-2.18 1.405 0 2.474.922 2.6 2.18h-5.305ZM47.466 8.645c-1.217 0-2.495.545-3.083 1.447V8.855h-2.725v10.484h2.725v-5.64c0-1.636.881-2.705 2.307-2.705 1.32 0 2.034 1.006 2.034 2.41v5.935h2.725v-6.374c0-2.6-1.593-4.32-3.983-4.32ZM58.43 4.662l-5.933 14.677h2.914l1.258-3.208h6.752l1.258 3.208h2.956L61.743 4.662H58.43Zm-.817 9.037 2.432-6.144 2.411 6.144h-4.843ZM71.514 4.662h-2.768v14.677h2.768V4.662ZM93.11 4.661h-6.5v14.677h2.768v-5.514h3.753c2.894 0 4.948-1.698 4.948-4.55 0-2.851-2.054-4.613-4.969-4.613Zm-.188 6.73h-3.544V7.178h3.544c1.425 0 2.348.818 2.348 2.097 0 1.28-.923 2.118-2.348 2.118ZM102.399 4.661h-2.726v14.677h2.726V4.661ZM113.575 12.502c0-2.39-1.636-3.858-4.655-3.858-2.474 0-4.445 1.384-4.781 3.397h2.748c.209-.692.963-1.237 2.012-1.237 1.363 0 2.013.713 2.013 1.95v.063l-2.663.23c-2.789.231-4.34 1.364-4.34 3.502 0 1.803 1.551 2.998 3.711 2.998 1.447 0 2.851-.566 3.439-1.51 0 .462.042.881.126 1.3h2.537c-.106-.67-.147-1.446-.147-2.348v-4.487Zm-2.663 2.495c0 1.238-.923 2.496-2.789 2.496-1.006 0-1.551-.483-1.551-1.195 0-.776.524-1.258 1.698-1.363l2.642-.231v.293ZM119.298 5.457h-2.725v3.397h-2.18v2.201h2.18v5.158c0 1.992 1.027 3.124 3.229 3.124h2.18v-2.264h-1.383c-.923 0-1.301-.314-1.301-1.174v-4.844h2.684V8.854h-2.684V5.457ZM127.811 8.142c0-.755.336-1.216 1.259-1.216h1.95V4.66h-2.306c-2.37 0-3.628 1.216-3.628 3.23v.964h-2.18v2.201h2.18v8.282h2.725v-8.282h2.685V8.855h-2.685v-.713ZM136.428 8.645c-3.123 0-5.535 2.474-5.535 5.451 0 2.977 2.412 5.451 5.535 5.451 3.124 0 5.536-2.474 5.536-5.451 0-2.977-2.412-5.451-5.536-5.451Zm0 8.47c-1.446 0-2.831-1.174-2.831-3.019 0-1.845 1.385-3.02 2.831-3.02 1.447 0 2.831 1.175 2.831 3.02s-1.384 3.02-2.831 3.02ZM146.115 10.448V8.855h-2.704V19.34h2.725v-4.97c0-1.991 1.006-2.998 2.789-2.998h.839V8.73h-.545c-1.321 0-2.559.65-3.104 1.72ZM163.854 8.645c-1.636 0-2.873.629-3.627 1.76-.651-1.11-1.845-1.76-3.23-1.76-1.3 0-2.474.545-3.061 1.446V8.854h-2.726v10.484h2.726v-5.64c0-1.636.86-2.705 2.265-2.705 1.299 0 2.013 1.006 2.013 2.411v5.934h2.725v-5.64c0-1.636.88-2.705 2.265-2.705 1.3 0 2.013 1.006 2.013 2.411v5.934h2.725v-6.374c0-2.6-1.656-4.32-4.088-4.32Z" fill="var(--text-primary)"></path></svg></a></span></div><div class="Aip-a"><div class="zWMrv"><span class="block"><div class="zWMrv"><nav class="okBd0"><a aria-current="page" class="w9s17 _1T-tk" data-primary-nav-item="" href="https://platform.openai.com/docs"><span class="EsOWR vaD2P" data-title="Docs">Docs</span><span class="EsOWR ksWxL" data-title="Docs">Docs</span></a><a class="w9s17" data-primary-nav-item="" href="https://platform.openai.com/docs/api-reference/introduction"><span class="EsOWR vaD2P" data-title="API reference">API reference</span><span class="EsOWR ksWxL" data-title="API">API</span></a></nav></div></span><div class="flex gap-3 mt-3 md:mt-0"><button type="button" class="Wmjjd" data-color="secondary" data-variant="filled" data-size="md" data-gutter-size="md" data-icon-size="md" data-block=""><span class="_6jr41">Log in</span></button><a class="Wmjjd" data-color="primary" data-variant="filled" data-size="md" data-gutter-size="md" data-icon-size="md" data-block="" href="https://platform.openai.com/signup"><span class="_6jr41">Sign up</span></a></div></div></div><div class="_3fO9I"><svg fill="none" xmlns="http://www.w3.org/2000/svg" width="169" height="24" viewBox="0 0 169 24"><path d="M8.11 4.452C3.958 4.452.562 7.849.562 12c0 4.152 3.396 7.549 7.548 7.549 4.151 0 7.548-3.376 7.548-7.549A7.543 7.543 0 0 0 8.11 4.452Zm0 12.392c-2.58 0-4.655-2.118-4.655-4.844 0-2.725 2.076-4.843 4.655-4.843S12.765 9.275 12.765 12c0 2.726-2.076 4.844-4.655 4.844ZM23.29 8.645c-1.363 0-2.684.545-3.376 1.468V8.855h-2.726v14.677h2.726v-5.305c.692.86 1.971 1.321 3.376 1.321 2.935 0 5.242-2.306 5.242-5.451 0-3.145-2.307-5.452-5.242-5.452Zm-.461 8.534c-1.552 0-2.936-1.216-2.936-3.082 0-1.866 1.384-3.082 2.936-3.082 1.551 0 2.935 1.216 2.935 3.082 0 1.866-1.384 3.082-2.935 3.082ZM34.948 8.645c-2.977 0-5.325 2.328-5.325 5.452s2.054 5.451 5.41 5.451c2.746 0 4.507-1.656 5.052-3.522h-2.663c-.335.776-1.278 1.32-2.41 1.32-1.406 0-2.475-.985-2.727-2.39h7.926v-1.069c0-2.851-1.992-5.242-5.263-5.242Zm-2.642 4.382c.294-1.32 1.384-2.18 2.705-2.18 1.405 0 2.474.922 2.6 2.18h-5.305ZM47.466 8.645c-1.217 0-2.495.545-3.083 1.447V8.855h-2.725v10.484h2.725v-5.64c0-1.636.881-2.705 2.307-2.705 1.32 0 2.034 1.006 2.034 2.41v5.935h2.725v-6.374c0-2.6-1.593-4.32-3.983-4.32ZM58.43 4.662l-5.933 14.677h2.914l1.258-3.208h6.752l1.258 3.208h2.956L61.743 4.662H58.43Zm-.817 9.037 2.432-6.144 2.411 6.144h-4.843ZM71.514 4.662h-2.768v14.677h2.768V4.662ZM93.11 4.661h-6.5v14.677h2.768v-5.514h3.753c2.894 0 4.948-1.698 4.948-4.55 0-2.851-2.054-4.613-4.969-4.613Zm-.188 6.73h-3.544V7.178h3.544c1.425 0 2.348.818 2.348 2.097 0 1.28-.923 2.118-2.348 2.118ZM102.399 4.661h-2.726v14.677h2.726V4.661ZM113.575 12.502c0-2.39-1.636-3.858-4.655-3.858-2.474 0-4.445 1.384-4.781 3.397h2.748c.209-.692.963-1.237 2.012-1.237 1.363 0 2.013.713 2.013 1.95v.063l-2.663.23c-2.789.231-4.34 1.364-4.34 3.502 0 1.803 1.551 2.998 3.711 2.998 1.447 0 2.851-.566 3.439-1.51 0 .462.042.881.126 1.3h2.537c-.106-.67-.147-1.446-.147-2.348v-4.487Zm-2.663 2.495c0 1.238-.923 2.496-2.789 2.496-1.006 0-1.551-.483-1.551-1.195 0-.776.524-1.258 1.698-1.363l2.642-.231v.293ZM119.298 5.457h-2.725v3.397h-2.18v2.201h2.18v5.158c0 1.992 1.027 3.124 3.229 3.124h2.18v-2.264h-1.383c-.923 0-1.301-.314-1.301-1.174v-4.844h2.684V8.854h-2.684V5.457ZM127.811 8.142c0-.755.336-1.216 1.259-1.216h1.95V4.66h-2.306c-2.37 0-3.628 1.216-3.628 3.23v.964h-2.18v2.201h2.18v8.282h2.725v-8.282h2.685V8.855h-2.685v-.713ZM136.428 8.645c-3.123 0-5.535 2.474-5.535 5.451 0 2.977 2.412 5.451 5.535 5.451 3.124 0 5.536-2.474 5.536-5.451 0-2.977-2.412-5.451-5.536-5.451Zm0 8.47c-1.446 0-2.831-1.174-2.831-3.019 0-1.845 1.385-3.02 2.831-3.02 1.447 0 2.831 1.175 2.831 3.02s-1.384 3.02-2.831 3.02ZM146.115 10.448V8.855h-2.704V19.34h2.725v-4.97c0-1.991 1.006-2.998 2.789-2.998h.839V8.73h-.545c-1.321 0-2.559.65-3.104 1.72ZM163.854 8.645c-1.636 0-2.873.629-3.627 1.76-.651-1.11-1.845-1.76-3.23-1.76-1.3 0-2.474.545-3.061 1.446V8.854h-2.726v10.484h2.726v-5.64c0-1.636.86-2.705 2.265-2.705 1.299 0 2.013 1.006 2.013 2.411v5.934h2.725v-5.64c0-1.636.88-2.705 2.265-2.705 1.3 0 2.013 1.006 2.013 2.411v5.934h2.725v-6.374c0-2.6-1.656-4.32-4.088-4.32Z" fill="var(--text-primary)"></path></svg></div></div><main class="unjkE" data-sidebar="expanded" data-mobile-menu="hidden"><aside class="EpwGB"><div class="GVIPA"><div class="JGDzZ"><div class="fKGG4"><div class="NmUvH"><span class="block _00hoS"><div class="aTuAl"><div class="_0MyKb qyrrQ"><div class="search mt-[-6px]"><button type="button" class="DocSearch DocSearch-Button" aria-label="Search"><span class="DocSearch-Button-Container"><svg width="20" height="20" class="DocSearch-Search-Icon" viewBox="0 0 20 20"><path d="M14.386 14.386l4.0877 4.0877-4.0877-4.0877c-2.9418 2.9419-7.7115 2.9419-10.6533 0-2.9419-2.9418-2.9419-7.7115 0-10.6533 2.9418-2.9419 7.7115-2.9419 10.6533 0 2.9419 2.9418 2.9419 7.7115 0 10.6533z" stroke="currentColor" fill="none" fill-rule="evenodd" stroke-linecap="round" stroke-linejoin="round"></path></svg><span class="DocSearch-Button-Placeholder">Search</span></span><span class="DocSearch-Button-Keys"><kbd class="DocSearch-Button-Key">⌘</kbd><kbd class="DocSearch-Button-Key">K</kbd></span></button></div></div><div class="DH-HY qyrrQ QeXPj"><div class="side-nav-section"><div class="side-nav-header subheading">Get started</div><a class="scroll-link side-nav-item" href="https://platform.openai.com/docs/overview"><span class="side-nav-item-name">Overview</span></a><a class="scroll-link side-nav-item" href="https://platform.openai.com/docs/quickstart"><span class="side-nav-item-name">Quickstart</span></a><a class="scroll-link side-nav-item" href="https://platform.openai.com/docs/models"><span class="side-nav-item-name">Models</span></a><a class="scroll-link side-nav-item" href="https://platform.openai.com/docs/pricing"><span class="side-nav-item-name">Pricing</span></a><a class="scroll-link side-nav-item" href="https://platform.openai.com/docs/libraries"><span class="side-nav-item-name">Libraries</span></a></div><div class="side-nav-section"><div class="side-nav-header subheading">Core Concepts</div><a class="scroll-link side-nav-item active active-exact" href="https://platform.openai.com/docs/guides/text"><span class="side-nav-item-name">Text and prompting</span></a><a class="scroll-link side-nav-item" href="https://platform.openai.com/docs/guides/images-vision"><span class="side-nav-item-name">Images and vision</span></a><a class="scroll-link side-nav-item" href="https://platform.openai.com/docs/guides/audio"><span class="side-nav-item-name">Audio and speech</span></a><a class="scroll-link side-nav-item" href="https://platform.openai.com/docs/guides/structured-outputs"><span class="side-nav-item-name">Structured Outputs</span></a><a class="scroll-link side-nav-item" href="https://platform.openai.com/docs/guides/function-calling"><span class="side-nav-item-name">Function calling</span></a><a class="scroll-link side-nav-item" href="https://platform.openai.com/docs/guides/conversation-state"><span class="side-nav-item-name">Conversation state</span></a><a class="scroll-link side-nav-item" href="https://platform.openai.com/docs/guides/streaming-responses"><span class="side-nav-item-name">Streaming</span></a><a class="scroll-link side-nav-item" href="https://platform.openai.com/docs/guides/pdf-files"><span class="side-nav-item-name">File inputs</span></a><a class="scroll-link side-nav-item" href="https://platform.openai.com/docs/guides/reasoning"><span class="side-nav-item-name">Reasoning</span></a><a class="scroll-link side-nav-item" href="https://platform.openai.com/docs/guides/evals"><span class="side-nav-item-name">Evals</span></a></div><div class="side-nav-section"><div class="side-nav-header subheading">Built-in tools</div><a class="scroll-link side-nav-item" href="https://platform.openai.com/docs/guides/tools"><span class="side-nav-item-name">Using built-in tools</span></a><a class="scroll-link side-nav-item" href="https://platform.openai.com/docs/guides/tools-web-search"><span class="side-nav-item-name">Web search</span></a><a class="scroll-link side-nav-item" href="https://platform.openai.com/docs/guides/tools-file-search"><span class="side-nav-item-name">File search</span></a><a class="scroll-link side-nav-item" href="https://platform.openai.com/docs/guides/tools-computer-use"><span class="side-nav-item-name">Computer use</span></a></div><div class="side-nav-section"><div class="side-nav-header subheading">Agents</div><a class="scroll-link side-nav-item" href="https://platform.openai.com/docs/guides/agents"><span class="side-nav-item-name">Building agents</span></a><a class="scroll-link side-nav-item" href="https://platform.openai.com/docs/guides/voice-agents"><span class="side-nav-item-name">Voice agents</span></a><a href="https://openai.github.io/openai-agents-python/" class="scroll-link side-nav-item" target="_blank" rel="noreferrer"><span class="side-nav-item-name">Agents SDK</span><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor" viewBox="0 0 24 24" class="side-nav-icon"><path fill-rule="evenodd" d="M15 5a1 1 0 1 1 0-2h5a1 1 0 0 1 1 1v5a1 1 0 1 1-2 0V6.414l-5.293 5.293a1 1 0 0 1-1.414-1.414L17.586 5H15ZM4 7a3 3 0 0 1 3-3h3a1 1 0 1 1 0 2H7a1 1 0 0 0-1 1v10a1 1 0 0 0 1 1h10a1 1 0 0 0 1-1v-3a1 1 0 1 1 2 0v3a3 3 0 0 1-3 3H7a3 3 0 0 1-3-3V7Z" clip-rule="evenodd"></path></svg></a></div><div class="side-nav-section"><div class="side-nav-header subheading">Realtime API</div><a class="scroll-link side-nav-item" href="https://platform.openai.com/docs/guides/realtime"><span class="side-nav-item-name">Using the Realtime API</span></a><a class="scroll-link side-nav-item" href="https://platform.openai.com/docs/guides/realtime-conversations"><span class="side-nav-item-name">Realtime conversations</span></a><a class="scroll-link side-nav-item" href="https://platform.openai.com/docs/guides/realtime-transcription"><span class="side-nav-item-name">Realtime transcription</span></a><a class="scroll-link side-nav-item" href="https://platform.openai.com/docs/guides/realtime-vad"><span class="side-nav-item-name">Voice activity detection</span></a></div><div class="side-nav-section"><div class="side-nav-header subheading">Specialized models</div><a class="scroll-link side-nav-item" href="https://platform.openai.com/docs/guides/image-generation"><span class="side-nav-item-name">Image generation</span></a><a class="scroll-link side-nav-item" href="https://platform.openai.com/docs/guides/text-to-speech"><span class="side-nav-item-name">Text to speech</span></a><a class="scroll-link side-nav-item" href="https://platform.openai.com/docs/guides/speech-to-text"><span class="side-nav-item-name">Speech to text</span></a><a class="scroll-link side-nav-item" href="https://platform.openai.com/docs/guides/embeddings"><span class="side-nav-item-name">Embeddings</span></a><a class="scroll-link side-nav-item" href="https://platform.openai.com/docs/guides/moderation"><span class="side-nav-item-name">Moderation</span></a></div><div class="side-nav-section"><div class="side-nav-header subheading">OpenAI Platform</div><a class="scroll-link side-nav-item" href="https://platform.openai.com/docs/guides/fine-tuning"><span class="side-nav-item-name">Fine-tuning</span></a><a class="scroll-link side-nav-item" href="https://platform.openai.com/docs/guides/distillation"><span class="side-nav-item-name">Distillation</span></a><a class="scroll-link side-nav-item" href="https://platform.openai.com/docs/guides/retrieval"><span class="side-nav-item-name">Retrieval</span></a><a class="scroll-link side-nav-item" href="https://platform.openai.com/docs/guides/batch"><span class="side-nav-item-name">Batch</span></a><a class="scroll-link side-nav-item" href="https://platform.openai.com/docs/guides/prompt-generation"><span class="side-nav-item-name">Prompt generation</span></a></div><div class="side-nav-section"><div class="side-nav-header subheading">Best practices</div><a class="scroll-link side-nav-item" href="https://platform.openai.com/docs/guides/production-best-practices"><span class="side-nav-item-name">Production best practices</span></a><a class="scroll-link side-nav-item" href="https://platform.openai.com/docs/guides/safety-best-practices"><span class="side-nav-item-name">Safety best practices</span></a><a class="scroll-link side-nav-item" href="https://platform.openai.com/docs/guides/prompt-caching"><span class="side-nav-item-name">Prompt Caching</span></a><a class="scroll-link side-nav-item" href="https://platform.openai.com/docs/guides/predicted-outputs"><span class="side-nav-item-name">Predicted Outputs</span></a><a class="scroll-link side-nav-item" href="https://platform.openai.com/docs/guides/model-selection"><span class="side-nav-item-name">Model selection</span></a><a class="scroll-link side-nav-item" href="https://platform.openai.com/docs/guides/latency-optimization"><span class="side-nav-item-name">Latency optimization</span></a><a class="scroll-link side-nav-item" href="https://platform.openai.com/docs/guides/optimizing-llm-accuracy"><span class="side-nav-item-name">Accuracy optimization</span></a><a class="scroll-link side-nav-item" href="https://platform.openai.com/docs/advanced-usage"><span class="side-nav-item-name">Advanced usage</span></a><a class="scroll-link side-nav-item" href="https://platform.openai.com/docs/guides/responses-vs-chat-completions"><span class="side-nav-item-name">Responses vs. Chat Completions</span></a><a class="scroll-link side-nav-item" href="https://platform.openai.com/docs/guides/flex-processing"><span class="side-nav-item-name">Flex processing</span></a></div><div class="side-nav-section"><div class="side-nav-header subheading">Assistants API</div><a class="scroll-link side-nav-item" href="https://platform.openai.com/docs/assistants/overview"><span class="side-nav-item-name">Overview</span></a><a class="scroll-link side-nav-item" href="https://platform.openai.com/docs/assistants/quickstart"><span class="side-nav-item-name">Quickstart</span></a><a class="scroll-link side-nav-item" href="https://platform.openai.com/docs/assistants/deep-dive"><span class="side-nav-item-name">Deep dive</span></a><a class="scroll-link side-nav-item side-nav-item-has-subitems" data-side-nav-subitems="hidden" href="https://platform.openai.com/docs/assistants/tools"><span class="side-nav-item-name">Tools</span><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor" viewBox="0 0 24 24" class="side-nav-mobile-chevron"><path fill-rule="evenodd" d="M4.293 8.293a1 1 0 0 1 1.414 0L12 14.586l6.293-6.293a1 1 0 1 1 1.414 1.414l-7 7a1 1 0 0 1-1.414 0l-7-7a1 1 0 0 1 0-1.414Z" clip-rule="evenodd"></path></svg></a><a class="scroll-link side-nav-item" href="https://platform.openai.com/docs/assistants/whats-new"><span class="side-nav-item-name">What's new?</span></a></div><div class="side-nav-section"><div class="side-nav-header subheading">Resources</div><a href="https://openai.com/policies" class="scroll-link side-nav-item" target="_blank" rel="noreferrer"><span class="side-nav-item-name">Terms and policies</span><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor" viewBox="0 0 24 24" class="side-nav-icon"><path fill-rule="evenodd" d="M15 5a1 1 0 1 1 0-2h5a1 1 0 0 1 1 1v5a1 1 0 1 1-2 0V6.414l-5.293 5.293a1 1 0 0 1-1.414-1.414L17.586 5H15ZM4 7a3 3 0 0 1 3-3h3a1 1 0 1 1 0 2H7a1 1 0 0 0-1 1v10a1 1 0 0 0 1 1h10a1 1 0 0 0 1-1v-3a1 1 0 1 1 2 0v3a3 3 0 0 1-3 3H7a3 3 0 0 1-3-3V7Z" clip-rule="evenodd"></path></svg></a><a class="scroll-link side-nav-item" href="https://platform.openai.com/docs/changelog"><span class="side-nav-item-name">Changelog</span></a><a class="scroll-link side-nav-item" href="https://platform.openai.com/docs/guides/your-data"><span class="side-nav-item-name">Your data</span></a><a class="scroll-link side-nav-item" href="https://platform.openai.com/docs/guides/rate-limits"><span class="side-nav-item-name">Rate limits</span></a><a class="scroll-link side-nav-item" href="https://platform.openai.com/docs/deprecations"><span class="side-nav-item-name">Deprecations</span></a><a class="scroll-link side-nav-item side-nav-item-has-subitems" data-side-nav-subitems="hidden" href="https://platform.openai.com/docs/actions"><span class="side-nav-item-name">ChatGPT Actions</span><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor" viewBox="0 0 24 24" class="side-nav-mobile-chevron"><path fill-rule="evenodd" d="M4.293 8.293a1 1 0 0 1 1.414 0L12 14.586l6.293-6.293a1 1 0 1 1 1.414 1.414l-7 7a1 1 0 0 1-1.414 0l-7-7a1 1 0 0 1 0-1.414Z" clip-rule="evenodd"></path></svg></a></div></div></div></span></div></div></div></div><div class="EDOEc qyrrQ"><div class="q3jBs"><a href="https://cookbook.openai.com/" target="_blank" rel="noopener noreferrer" class="-ySo1 FDGXZ" data-state="closed"><span class="_1h-SG"><span class="-k7Gw"><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor" viewBox="0 0 24 24"><path fill-rule="evenodd" d="M14.447 7.106a1 1 0 0 1 .447 1.341l-4 8a1 1 0 1 1-1.788-.894l4-8a1 1 0 0 1 1.341-.447ZM6.6 7.2a1 1 0 0 1 .2 1.4L4.25 12l2.55 3.4a1 1 0 0 1-1.6 1.2l-3-4a1 1 0 0 1 0-1.2l3-4a1 1 0 0 1 1.4-.2Zm10.8 0a1 1 0 0 1 1.4.2l3 4a1 1 0 0 1 0 1.2l-3 4a1 1 0 0 1-1.6-1.2l2.55-3.4-2.55-3.4a1 1 0 0 1 .2-1.4Z" clip-rule="evenodd"></path></svg></span><span class="_0LIzz">Cookbook</span></span></a><a href="https://community.openai.com/categories" target="_blank" rel="noopener noreferrer" class="-ySo1 FDGXZ" data-state="closed"><span class="_1h-SG"><span class="-k7Gw"><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor" viewBox="0 0 24 24"><path fill-rule="evenodd" d="M10.5 8.5a1.5 1.5 0 1 1 3 0 1.5 1.5 0 0 1-3 0ZM12 5a3.5 3.5 0 1 0 0 7 3.5 3.5 0 0 0 0-7ZM3 9.5a1 1 0 1 1 2 0 1 1 0 0 1-2 0Zm1-3a3 3 0 1 0 0 6 3 3 0 0 0 0-6Zm16 2a1 1 0 1 0 0 2 1 1 0 0 0 0-2Zm-3 1a3 3 0 1 1 6 0 3 3 0 0 1-6 0ZM8 18c0-.974.438-1.684 1.142-2.185C9.876 15.293 10.911 15 12 15c1.09 0 2.124.293 2.858.815.704.5 1.142 1.21 1.142 2.185a1 1 0 1 0 2 0c0-1.692-.812-2.982-1.983-3.815C14.876 13.373 13.411 13 12 13c-1.41 0-2.876.373-4.017 1.185C6.812 15.018 6 16.308 6 18a1 1 0 1 0 2 0Zm-3.016-3.675a1 1 0 0 1-.809 1.16C2.79 15.732 2 16.486 2 17.5a1 1 0 1 1-2 0c0-2.41 1.978-3.655 3.825-3.985a1 1 0 0 1 1.16.81Zm14.84 1.16a1 1 0 1 1 .351-1.97C22.022 13.845 24 15.09 24 17.5a1 1 0 1 1-2 0c0-1.014-.79-1.768-2.175-2.015Z" clip-rule="evenodd"></path></svg></span><span class="_0LIzz">Forum</span></span></a><button class="-ySo1 FDGXZ" data-state="closed"><span class="_1h-SG"><span class="-k7Gw"><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor" viewBox="0 0 24 24"><path fill-rule="evenodd" d="M12 4a8 8 0 1 0 0 16 8 8 0 0 0 0-16ZM2 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10S2 17.523 2 12Z" clip-rule="evenodd"></path><path fill-rule="evenodd" d="M12 9a1 1 0 0 0-.879.522 1 1 0 0 1-1.754-.96A3 3 0 0 1 12 7c1.515 0 2.567 1.006 2.866 2.189.302 1.189-.156 2.574-1.524 3.258A.618.618 0 0 0 13 13a1 1 0 1 1-2 0c0-.992.56-1.898 1.447-2.342.455-.227.572-.618.48-.978C12.836 9.314 12.529 9 12 9Z" clip-rule="evenodd"></path><path d="M13.1 16a1.1 1.1 0 1 1-2.2 0 1.1 1.1 0 0 1 2.2 0Z"></path></svg></span><span class="_0LIzz">Help</span></span></button></div></div></aside><div class="_7j8ow"><div class="qLnXc"><div class="JGDzZ"><div class="fKGG4"><div class="NmUvH"><span class="block _00hoS"><div class="ImBcX"><div class="docs-scroll-container" data-important-algolia-crawl="true"><div class="page-body full-width flush docs-page"><div class="docs-markdown-page docs-markdown-content markdown-prompt-blockquote"><div class="flex w-full items-start"><div class="flex-1 overflow-hidden"><div><div class="title-container flex items-baseline justify-between"><div><h1 id="page-top" class="docs-markdown-page-title m-0">Text generation and prompting</h1><div class="docs-markdown-page-subtitle">Learn how to prompt a model to generate text.</div></div><div class="flex flex-col gap-2 items-end justify-start ml-4 px-1"><div><button type="button" class="Wmjjd copy-button" data-color="secondary" data-variant="bare" data-size="2xs" data-gutter-size="2xs" data-icon-size="sm"><span class="_6jr41"><span class="eRdFc" data-align="start"><span class="block beN8R"><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor" viewBox="0 0 24 24"><path fill-rule="evenodd" d="M7 5a3 3 0 0 1 3-3h9a3 3 0 0 1 3 3v9a3 3 0 0 1-3 3h-2v2a3 3 0 0 1-3 3H5a3 3 0 0 1-3-3v-9a3 3 0 0 1 3-3h2V5Zm2 2h5a3 3 0 0 1 3 3v5h2a1 1 0 0 0 1-1V5a1 1 0 0 0-1-1h-9a1 1 0 0 0-1 1v2ZM5 9a1 1 0 0 0-1 1v9a1 1 0 0 0 1 1h9a1 1 0 0 0 1-1v-9a1 1 0 0 0-1-1H5Z" clip-rule="evenodd"></path></svg></span></span>Copy page</span></button></div></div></div><p>With the OpenAI API, you can use a <a href="https://platform.openai.com/docs/models">large language model</a> to generate text from a prompt, as you might using <a href="https://chatgpt.com/" target="_blank" rel="noopener noreferrer">ChatGPT</a>. Models can generate almost any kind of text response—like code, mathematical equations, structured JSON data, or human-like prose.</p>
+<p>Here's a simple example using the <a href="https://platform.openai.com/docs/api-reference/responses">Responses API</a>.</p><div class="code-sample dark-mode"><div class="code-sample-header"><div class="code-sample-title body-small">Generate text from a simple prompt</div><div class="exclude-from-copy"><button id="select-trigger-radix-:r10:" type="button" class="ICo9Y" data-variant="bare" data-size="sm" data-gutter-size="xs" aria-haspopup="dialog" aria-expanded="false" aria-controls="radix-:r12:" data-state="closed"><span class="RWOJJ">python</span><div class="relative flex items-center gap-2"><svg width="8" height="11" viewBox="0 0 10 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="uF-Qb"><path fill-rule="evenodd" clip-rule="evenodd" d="M4.34151 0.747423C4.71854 0.417526 5.28149 0.417526 5.65852 0.747423L9.65852 4.24742C10.0742 4.61111 10.1163 5.24287 9.75259 5.6585C9.38891 6.07414 8.75715 6.11626 8.34151 5.75258L5.00001 2.82877L1.65852 5.75258C1.24288 6.11626 0.61112 6.07414 0.247438 5.6585C-0.116244 5.24287 -0.0741267 4.61111 0.34151 4.24742L4.34151 0.747423ZM0.246065 10.3578C0.608879 9.94139 1.24055 9.89795 1.65695 10.2608L5.00001 13.1737L8.34308 10.2608C8.75948 9.89795 9.39115 9.94139 9.75396 10.3578C10.1168 10.7742 10.0733 11.4058 9.65695 11.7687L5.65695 15.2539C5.28043 15.582 4.7196 15.582 4.34308 15.2539L0.343082 11.7687C-0.0733128 11.4058 -0.116749 10.7742 0.246065 10.3578Z"></path></svg></div></button></div><button type="button" class="Wmjjd Ry4P0" data-color="secondary" data-variant="bare" data-size="sm" data-gutter-size="xs" data-icon-size="sm"><span class="_6jr41"><span class="eRdFc" data-align="start"><span class="block beN8R"><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor" viewBox="0 0 24 24"><path fill-rule="evenodd" d="M7 5a3 3 0 0 1 3-3h9a3 3 0 0 1 3 3v9a3 3 0 0 1-3 3h-2v2a3 3 0 0 1-3 3H5a3 3 0 0 1-3-3v-9a3 3 0 0 1 3-3h2V5Zm2 2h5a3 3 0 0 1 3 3v5h2a1 1 0 0 0 1-1V5a1 1 0 0 0-1-1h-9a1 1 0 0 0-1 1v2ZM5 9a1 1 0 0 0-1 1v9a1 1 0 0 0 1 1h9a1 1 0 0 0 1-1v-9a1 1 0 0 0-1-1H5Z" clip-rule="evenodd"></path></svg></span></span></span></button></div><div class="code-sample-body code-sample-body-small code-sample-body-with-header"><div class="code-block hidden"><pre class="hljs syntax-highlighter dark-mode code-sample-pre"><code class="language-javascript" style="white-space: pre;"><code style="float: left; padding-right: 10px;"><span class="react-syntax-highlighter-line-number">1
+</span><span class="react-syntax-highlighter-line-number">2
+</span><span class="react-syntax-highlighter-line-number">3
+</span><span class="react-syntax-highlighter-line-number">4
+</span><span class="react-syntax-highlighter-line-number">5
+</span><span class="react-syntax-highlighter-line-number">6
+</span><span class="react-syntax-highlighter-line-number">7
+</span><span class="react-syntax-highlighter-line-number">8
+</span><span class="react-syntax-highlighter-line-number">9
+</span></code><span><span class="hljs-keyword">import</span><span> OpenAI </span><span class="hljs-keyword">from</span><span> </span><span class="hljs-string">"openai"</span><span>;
+</span></span><span><span></span><span class="hljs-keyword">const</span><span> client = </span><span class="hljs-keyword">new</span><span> OpenAI();
+</span></span><span>
+</span><span><span></span><span class="hljs-keyword">const</span><span> response = </span><span class="hljs-keyword">await</span><span> client.responses.create({
+</span></span><span><span>    </span><span class="hljs-attr">model</span><span>: </span><span class="hljs-string">"gpt-4.1"</span><span>,
+</span></span><span><span>    </span><span class="hljs-attr">input</span><span>: </span><span class="hljs-string">"Write a one-sentence bedtime story about a unicorn."</span><span>
+</span></span><span>});
+</span><span>
+</span><span><span></span><span class="hljs-built_in">console</span><span>.log(response.output_text);</span></span></code></pre></div><div class="code-block"><pre class="hljs syntax-highlighter dark-mode code-sample-pre"><code class="language-python" style="white-space: pre;"><code style="float: left; padding-right: 10px;"><span class="react-syntax-highlighter-line-number">1
+</span><span class="react-syntax-highlighter-line-number">2
+</span><span class="react-syntax-highlighter-line-number">3
+</span><span class="react-syntax-highlighter-line-number">4
+</span><span class="react-syntax-highlighter-line-number">5
+</span><span class="react-syntax-highlighter-line-number">6
+</span><span class="react-syntax-highlighter-line-number">7
+</span><span class="react-syntax-highlighter-line-number">8
+</span><span class="react-syntax-highlighter-line-number">9
+</span></code><span><span class="hljs-keyword">from</span><span> openai </span><span class="hljs-keyword">import</span><span> OpenAI
+</span></span><span>client = OpenAI()
+</span><span>
+</span><span>response = client.responses.create(
+</span><span><span>    model=</span><span class="hljs-string">"gpt-4.1"</span><span>,
+</span></span><span><span>    </span><span class="hljs-built_in">input</span><span>=</span><span class="hljs-string">"Write a one-sentence bedtime story about a unicorn."</span><span>
+</span></span><span>)
+</span><span>
+</span><span><span></span><span class="hljs-built_in">print</span><span>(response.output_text)</span></span></code></pre></div><div class="code-block hidden"><pre class="hljs syntax-highlighter dark-mode code-sample-pre"><code class="language-bash" style="white-space: pre;"><code style="float: left; padding-right: 10px;"><span class="react-syntax-highlighter-line-number">1
+</span><span class="react-syntax-highlighter-line-number">2
+</span><span class="react-syntax-highlighter-line-number">3
+</span><span class="react-syntax-highlighter-line-number">4
+</span><span class="react-syntax-highlighter-line-number">5
+</span><span class="react-syntax-highlighter-line-number">6
+</span><span class="react-syntax-highlighter-line-number">7
+</span></code><span><span>curl </span><span class="hljs-string">"https://api.openai.com/v1/responses"</span><span> \
+</span></span><span><span>    -H </span><span class="hljs-string">"Content-Type: application/json"</span><span> \
+</span></span><span><span>    -H </span><span class="hljs-string">"Authorization: Bearer </span><span class="hljs-string hljs-variable">$OPENAI_API_KEY</span><span class="hljs-string">"</span><span> \
+</span></span><span><span>    -d </span><span class="hljs-string">'{
+</span></span><span class="hljs-string">        "model": "gpt-4.1",
+</span><span class="hljs-string">        "input": "Write a one-sentence bedtime story about a unicorn."
+</span><span class="hljs-string">    }'</span></code></pre></div></div></div><p>An array of content generated by the model is in the <code>output</code> property of the response. In this simple example, we have just one output which looks like this:</p><div class="code-sample dark-mode"><div class="code-sample-body code-sample-body-large"><div class="code-sample-copy-float"><button type="button" class="Wmjjd Ry4P0" data-color="secondary" data-variant="bare" data-size="sm" data-gutter-size="xs" data-icon-size="sm"><span class="_6jr41"><span class="eRdFc" data-align="start"><span class="block beN8R"><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor" viewBox="0 0 24 24"><path fill-rule="evenodd" d="M7 5a3 3 0 0 1 3-3h9a3 3 0 0 1 3 3v9a3 3 0 0 1-3 3h-2v2a3 3 0 0 1-3 3H5a3 3 0 0 1-3-3v-9a3 3 0 0 1 3-3h2V5Zm2 2h5a3 3 0 0 1 3 3v5h2a1 1 0 0 0 1-1V5a1 1 0 0 0-1-1h-9a1 1 0 0 0-1 1v2ZM5 9a1 1 0 0 0-1 1v9a1 1 0 0 0 1 1h9a1 1 0 0 0 1-1v-9a1 1 0 0 0-1-1H5Z" clip-rule="evenodd"></path></svg></span></span></span></button></div><pre class="hljs syntax-highlighter dark-mode code-sample-pre"><code class="language-json" style="white-space: pre;"><code style="float: left; padding-right: 10px;"><span class="react-syntax-highlighter-line-number">1
+</span><span class="react-syntax-highlighter-line-number">2
+</span><span class="react-syntax-highlighter-line-number">3
+</span><span class="react-syntax-highlighter-line-number">4
+</span><span class="react-syntax-highlighter-line-number">5
+</span><span class="react-syntax-highlighter-line-number">6
+</span><span class="react-syntax-highlighter-line-number">7
+</span><span class="react-syntax-highlighter-line-number">8
+</span><span class="react-syntax-highlighter-line-number">9
+</span><span class="react-syntax-highlighter-line-number">10
+</span><span class="react-syntax-highlighter-line-number">11
+</span><span class="react-syntax-highlighter-line-number">12
+</span><span class="react-syntax-highlighter-line-number">13
+</span><span class="react-syntax-highlighter-line-number">14
+</span></code><span><span>[
+</span></span><span>    {
+</span><span><span>        </span><span class="hljs-attr">"id"</span><span>: </span><span class="hljs-string">"msg_67b73f697ba4819183a15cc17d011509"</span><span>,
+</span></span><span><span>        </span><span class="hljs-attr">"type"</span><span>: </span><span class="hljs-string">"message"</span><span>,
+</span></span><span><span>        </span><span class="hljs-attr">"role"</span><span>: </span><span class="hljs-string">"assistant"</span><span>,
+</span></span><span><span>        </span><span class="hljs-attr">"content"</span><span>: [
+</span></span><span>            {
+</span><span><span>                </span><span class="hljs-attr">"type"</span><span>: </span><span class="hljs-string">"output_text"</span><span>,
+</span></span><span><span>                </span><span class="hljs-attr">"text"</span><span>: </span><span class="hljs-string">"Under the soft glow of the moon, Luna the unicorn danced through fields of twinkling stardust, leaving trails of dreams for every child asleep."</span><span>,
+</span></span><span><span>                </span><span class="hljs-attr">"annotations"</span><span>: []
+</span></span><span>            }
+</span><span>        ]
+</span><span>    }
+</span><span>]</span></code></pre></div></div><div class="eyfSy"><div class="kQ2ry" data-variant="neutral"><div class="KtDSh"><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor" viewBox="0 0 24 24"><path d="M13 12a1 1 0 1 0-2 0v4a1 1 0 1 0 2 0v-4Zm-1-2.5A1.25 1.25 0 1 0 12 7a1.25 1.25 0 0 0 0 2.5Z"></path><path fill-rule="evenodd" d="M12 2C6.477 2 2 6.477 2 12s4.477 10 10 10 10-4.477 10-10S17.523 2 12 2ZM4 12a8 8 0 1 1 16 0 8 8 0 0 1-16 0Z" clip-rule="evenodd"></path></svg></div><div class="d3NUC"><div class="hFW1r"><div class="_9ohtt"><p><strong>The <code>output</code> array often has more than one item in it!</strong> It can contain tool calls, data about reasoning tokens generated by <a href="https://platform.openai.com/docs/guides/reasoning">reasoning models</a>, and other items. It is not safe to assume that the model's text output is present at <code>output[0].content[0].text</code>.</p></div></div></div></div></div><p>Some of our <a href="https://platform.openai.com/docs/libraries">official SDKs</a> include an <code>output_text</code> property on model responses for convenience, which aggregates all text outputs from the model into a single string. This may be useful as a shortcut to access text output from the model.</p><p>In addition to plain text, you can also have the model return structured data in JSON format - this feature is called <a href="https://platform.openai.com/docs/guides/structured-outputs"><strong>Structured Outputs</strong></a>.</p>
+
+<div class="anchor-heading-wrapper"><h2 id="choosing-a-model" class="anchor-heading" data-name="choosing-a-model">Choosing a model<svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" fill="currentColor" viewBox="0 0 24 24" class="anchor-heading-icon" role="presentation"><path fill-rule="evenodd" d="M18.293 5.707a4.657 4.657 0 0 0-6.586 0l-1 1a1 1 0 1 1-1.414-1.414l1-1a6.657 6.657 0 1 1 9.414 9.414l-1 1a1 1 0 0 1-1.414-1.414l1-1a4.657 4.657 0 0 0 0-6.586Zm-2.586 2.586a1 1 0 0 1 0 1.414l-6 6a1 1 0 0 1-1.414-1.414l6-6a1 1 0 0 1 1.414 0Zm-9 1a1 1 0 0 1 0 1.414l-1 1a4.657 4.657 0 0 0 6.586 6.586l1-1a1 1 0 0 1 1.414 1.414l-1 1a6.657 6.657 0 1 1-9.414-9.414l1-1a1 1 0 0 1 1.414 0Z" clip-rule="evenodd"></path></svg></h2></div>
+<p>A key choice to make when generating content through the API is which model you want to use - the <code>model</code> parameter of the code samples above. <a href="https://platform.openai.com/docs/models">You can find a full listing of available models here</a>. Here are a few factors to consider when choosing a model for text generation.</p>
+<ul>
+<li><strong><a href="https://platform.openai.com/docs/guides/reasoning">Reasoning models</a></strong> generate an internal chain of thought to analyze the input prompt, and excel at understanding complex tasks and multi-step planning. They are also generally slower and more expensive to use than GPT models.</li>
+<li><strong>GPT models</strong> are fast, cost-efficient, and highly intelligent, but benefit from more explicit instructions around how to accomplish tasks.</li>
+<li><strong>Large and small (mini or nano) models</strong> offer trade-offs for speed, cost, and intelligence. Large models are more effective at understanding prompts and solving problems across domains, while small models are generally faster and cheaper to use.</li>
+</ul>
+<p>When in doubt, <a href="https://platform.openai.com/docs/models/gpt-4.1"><code>gpt-4.1</code></a> offers a solid combination of intelligence, speed, and cost effectiveness.</p>
+<div class="anchor-heading-wrapper"><h2 id="prompt-engineering" class="anchor-heading" data-name="prompt-engineering">Prompt engineering<svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" fill="currentColor" viewBox="0 0 24 24" class="anchor-heading-icon" role="presentation"><path fill-rule="evenodd" d="M18.293 5.707a4.657 4.657 0 0 0-6.586 0l-1 1a1 1 0 1 1-1.414-1.414l1-1a6.657 6.657 0 1 1 9.414 9.414l-1 1a1 1 0 0 1-1.414-1.414l1-1a4.657 4.657 0 0 0 0-6.586Zm-2.586 2.586a1 1 0 0 1 0 1.414l-6 6a1 1 0 0 1-1.414-1.414l6-6a1 1 0 0 1 1.414 0Zm-9 1a1 1 0 0 1 0 1.414l-1 1a4.657 4.657 0 0 0 6.586 6.586l1-1a1 1 0 0 1 1.414 1.414l-1 1a6.657 6.657 0 1 1-9.414-9.414l1-1a1 1 0 0 1 1.414 0Z" clip-rule="evenodd"></path></svg></h2></div>
+<p><strong>Prompt engineering</strong> is the process of writing effective instructions for a model, such that it consistently generates content that meets your requirements.</p>
+<p>Because the content generated from a model is non-deterministic, it is a combination of art and science to build a prompt that will generate content in the format you want. However, there are a number of techniques and best practices you can apply to consistently get good results from a model.</p>
+<p>Some prompt engineering techniques will work with every model, like using message roles. But different model types (like reasoning versus GPT models) might need to be prompted differently to produce the best results. Even different snapshots of models within the same family could produce different results. So as you are building more complex applications, we strongly recommend that you:</p>
+<ul>
+<li>Pin your production applications to specific <a href="https://platform.openai.com/docs/models">model snapshots</a> (like <code>gpt-4.1-2025-04-14</code> for example) to ensure consistent behavior.</li>
+<li>Build <a href="https://platform.openai.com/docs/guides/evals">evals</a> that will measure the behavior of your prompts, so that you can monitor the performance of your prompts as you iterate on them, or when you change and upgrade model versions.</li>
+</ul>
+<p>Now, let's examine some tools and techniques available to you to construct prompts.</p>
+<div class="anchor-heading-wrapper"><h2 id="message-roles-and-instruction-following" class="anchor-heading" data-name="message-roles-and-instruction-following">Message roles and instruction following<svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" fill="currentColor" viewBox="0 0 24 24" class="anchor-heading-icon" role="presentation"><path fill-rule="evenodd" d="M18.293 5.707a4.657 4.657 0 0 0-6.586 0l-1 1a1 1 0 1 1-1.414-1.414l1-1a6.657 6.657 0 1 1 9.414 9.414l-1 1a1 1 0 0 1-1.414-1.414l1-1a4.657 4.657 0 0 0 0-6.586Zm-2.586 2.586a1 1 0 0 1 0 1.414l-6 6a1 1 0 0 1-1.414-1.414l6-6a1 1 0 0 1 1.414 0Zm-9 1a1 1 0 0 1 0 1.414l-1 1a4.657 4.657 0 0 0 6.586 6.586l1-1a1 1 0 0 1 1.414 1.414l-1 1a6.657 6.657 0 1 1-9.414-9.414l1-1a1 1 0 0 1 1.414 0Z" clip-rule="evenodd"></path></svg></h2></div>
+<p>You can provide instructions to the model with <a href="https://model-spec.openai.com/2025-02-12.html#chain_of_command" target="_blank" rel="noopener noreferrer">differing levels of authority</a> using the <code>instructions</code> API parameter or <strong>message roles</strong>.</p><p>The <code>instructions</code> parameter gives the model high-level instructions on how it should behave while generating a response, including tone, goals, and examples of correct responses. Any instructions provided this way will take priority over a prompt in the <code>input</code> parameter.</p><div class="code-sample dark-mode"><div class="code-sample-header"><div class="code-sample-title body-small">Generate text with instructions</div><div class="exclude-from-copy"><button id="select-trigger-radix-:r13:" type="button" class="ICo9Y" data-variant="bare" data-size="sm" data-gutter-size="xs" aria-haspopup="dialog" aria-expanded="false" aria-controls="radix-:r15:" data-state="closed"><span class="RWOJJ">python</span><div class="relative flex items-center gap-2"><svg width="8" height="11" viewBox="0 0 10 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="uF-Qb"><path fill-rule="evenodd" clip-rule="evenodd" d="M4.34151 0.747423C4.71854 0.417526 5.28149 0.417526 5.65852 0.747423L9.65852 4.24742C10.0742 4.61111 10.1163 5.24287 9.75259 5.6585C9.38891 6.07414 8.75715 6.11626 8.34151 5.75258L5.00001 2.82877L1.65852 5.75258C1.24288 6.11626 0.61112 6.07414 0.247438 5.6585C-0.116244 5.24287 -0.0741267 4.61111 0.34151 4.24742L4.34151 0.747423ZM0.246065 10.3578C0.608879 9.94139 1.24055 9.89795 1.65695 10.2608L5.00001 13.1737L8.34308 10.2608C8.75948 9.89795 9.39115 9.94139 9.75396 10.3578C10.1168 10.7742 10.0733 11.4058 9.65695 11.7687L5.65695 15.2539C5.28043 15.582 4.7196 15.582 4.34308 15.2539L0.343082 11.7687C-0.0733128 11.4058 -0.116749 10.7742 0.246065 10.3578Z"></path></svg></div></button></div><button type="button" class="Wmjjd Ry4P0" data-color="secondary" data-variant="bare" data-size="sm" data-gutter-size="xs" data-icon-size="sm"><span class="_6jr41"><span class="eRdFc" data-align="start"><span class="block beN8R"><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor" viewBox="0 0 24 24"><path fill-rule="evenodd" d="M7 5a3 3 0 0 1 3-3h9a3 3 0 0 1 3 3v9a3 3 0 0 1-3 3h-2v2a3 3 0 0 1-3 3H5a3 3 0 0 1-3-3v-9a3 3 0 0 1 3-3h2V5Zm2 2h5a3 3 0 0 1 3 3v5h2a1 1 0 0 0 1-1V5a1 1 0 0 0-1-1h-9a1 1 0 0 0-1 1v2ZM5 9a1 1 0 0 0-1 1v9a1 1 0 0 0 1 1h9a1 1 0 0 0 1-1v-9a1 1 0 0 0-1-1H5Z" clip-rule="evenodd"></path></svg></span></span></span></button></div><div class="code-sample-body code-sample-body-small code-sample-body-with-header"><div class="code-block hidden"><pre class="hljs syntax-highlighter dark-mode code-sample-pre"><code class="language-javascript" style="white-space: pre;"><code style="float: left; padding-right: 10px;"><span class="react-syntax-highlighter-line-number">1
+</span><span class="react-syntax-highlighter-line-number">2
+</span><span class="react-syntax-highlighter-line-number">3
+</span><span class="react-syntax-highlighter-line-number">4
+</span><span class="react-syntax-highlighter-line-number">5
+</span><span class="react-syntax-highlighter-line-number">6
+</span><span class="react-syntax-highlighter-line-number">7
+</span><span class="react-syntax-highlighter-line-number">8
+</span><span class="react-syntax-highlighter-line-number">9
+</span><span class="react-syntax-highlighter-line-number">10
+</span></code><span><span class="hljs-keyword">import</span><span> OpenAI </span><span class="hljs-keyword">from</span><span> </span><span class="hljs-string">"openai"</span><span>;
+</span></span><span><span></span><span class="hljs-keyword">const</span><span> client = </span><span class="hljs-keyword">new</span><span> OpenAI();
+</span></span><span>
+</span><span><span></span><span class="hljs-keyword">const</span><span> response = </span><span class="hljs-keyword">await</span><span> client.responses.create({
+</span></span><span><span>    </span><span class="hljs-attr">model</span><span>: </span><span class="hljs-string">"gpt-4.1"</span><span>,
+</span></span><span><span>    </span><span class="hljs-attr">instructions</span><span>: </span><span class="hljs-string">"Talk like a pirate."</span><span>,
+</span></span><span><span>    </span><span class="hljs-attr">input</span><span>: </span><span class="hljs-string">"Are semicolons optional in JavaScript?"</span><span>,
+</span></span><span>});
+</span><span>
+</span><span><span></span><span class="hljs-built_in">console</span><span>.log(response.output_text);</span></span></code></pre></div><div class="code-block"><pre class="hljs syntax-highlighter dark-mode code-sample-pre"><code class="language-python" style="white-space: pre;"><code style="float: left; padding-right: 10px;"><span class="react-syntax-highlighter-line-number">1
+</span><span class="react-syntax-highlighter-line-number">2
+</span><span class="react-syntax-highlighter-line-number">3
+</span><span class="react-syntax-highlighter-line-number">4
+</span><span class="react-syntax-highlighter-line-number">5
+</span><span class="react-syntax-highlighter-line-number">6
+</span><span class="react-syntax-highlighter-line-number">7
+</span><span class="react-syntax-highlighter-line-number">8
+</span><span class="react-syntax-highlighter-line-number">9
+</span><span class="react-syntax-highlighter-line-number">10
+</span></code><span><span class="hljs-keyword">from</span><span> openai </span><span class="hljs-keyword">import</span><span> OpenAI
+</span></span><span>client = OpenAI()
+</span><span>
+</span><span>response = client.responses.create(
+</span><span><span>    model=</span><span class="hljs-string">"gpt-4.1"</span><span>,
+</span></span><span><span>    instructions=</span><span class="hljs-string">"Talk like a pirate."</span><span>,
+</span></span><span><span>    </span><span class="hljs-built_in">input</span><span>=</span><span class="hljs-string">"Are semicolons optional in JavaScript?"</span><span>,
+</span></span><span>)
+</span><span>
+</span><span><span></span><span class="hljs-built_in">print</span><span>(response.output_text)</span></span></code></pre></div><div class="code-block hidden"><pre class="hljs syntax-highlighter dark-mode code-sample-pre"><code class="language-bash" style="white-space: pre;"><code style="float: left; padding-right: 10px;"><span class="react-syntax-highlighter-line-number">1
+</span><span class="react-syntax-highlighter-line-number">2
+</span><span class="react-syntax-highlighter-line-number">3
+</span><span class="react-syntax-highlighter-line-number">4
+</span><span class="react-syntax-highlighter-line-number">5
+</span><span class="react-syntax-highlighter-line-number">6
+</span><span class="react-syntax-highlighter-line-number">7
+</span><span class="react-syntax-highlighter-line-number">8
+</span></code><span><span>curl </span><span class="hljs-string">"https://api.openai.com/v1/responses"</span><span> \
+</span></span><span><span>    -H </span><span class="hljs-string">"Content-Type: application/json"</span><span> \
+</span></span><span><span>    -H </span><span class="hljs-string">"Authorization: Bearer </span><span class="hljs-string hljs-variable">$OPENAI_API_KEY</span><span class="hljs-string">"</span><span> \
+</span></span><span><span>    -d </span><span class="hljs-string">'{
+</span></span><span class="hljs-string">        "model": "gpt-4.1",
+</span><span class="hljs-string">        "instructions": "Talk like a pirate.",
+</span><span class="hljs-string">        "input": "Are semicolons optional in JavaScript?"
+</span><span class="hljs-string">    }'</span></code></pre></div></div></div><p>The example above is roughly equivalent to using the following input messages in the <code>input</code> array:</p><div class="code-sample dark-mode"><div class="code-sample-header"><div class="code-sample-title body-small">Generate text with messages using different roles</div><div class="exclude-from-copy"><button id="select-trigger-radix-:r16:" type="button" class="ICo9Y" data-variant="bare" data-size="sm" data-gutter-size="xs" aria-haspopup="dialog" aria-expanded="false" aria-controls="radix-:r18:" data-state="closed"><span class="RWOJJ">python</span><div class="relative flex items-center gap-2"><svg width="8" height="11" viewBox="0 0 10 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="uF-Qb"><path fill-rule="evenodd" clip-rule="evenodd" d="M4.34151 0.747423C4.71854 0.417526 5.28149 0.417526 5.65852 0.747423L9.65852 4.24742C10.0742 4.61111 10.1163 5.24287 9.75259 5.6585C9.38891 6.07414 8.75715 6.11626 8.34151 5.75258L5.00001 2.82877L1.65852 5.75258C1.24288 6.11626 0.61112 6.07414 0.247438 5.6585C-0.116244 5.24287 -0.0741267 4.61111 0.34151 4.24742L4.34151 0.747423ZM0.246065 10.3578C0.608879 9.94139 1.24055 9.89795 1.65695 10.2608L5.00001 13.1737L8.34308 10.2608C8.75948 9.89795 9.39115 9.94139 9.75396 10.3578C10.1168 10.7742 10.0733 11.4058 9.65695 11.7687L5.65695 15.2539C5.28043 15.582 4.7196 15.582 4.34308 15.2539L0.343082 11.7687C-0.0733128 11.4058 -0.116749 10.7742 0.246065 10.3578Z"></path></svg></div></button></div><button type="button" class="Wmjjd Ry4P0" data-color="secondary" data-variant="bare" data-size="sm" data-gutter-size="xs" data-icon-size="sm"><span class="_6jr41"><span class="eRdFc" data-align="start"><span class="block beN8R"><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor" viewBox="0 0 24 24"><path fill-rule="evenodd" d="M7 5a3 3 0 0 1 3-3h9a3 3 0 0 1 3 3v9a3 3 0 0 1-3 3h-2v2a3 3 0 0 1-3 3H5a3 3 0 0 1-3-3v-9a3 3 0 0 1 3-3h2V5Zm2 2h5a3 3 0 0 1 3 3v5h2a1 1 0 0 0 1-1V5a1 1 0 0 0-1-1h-9a1 1 0 0 0-1 1v2ZM5 9a1 1 0 0 0-1 1v9a1 1 0 0 0 1 1h9a1 1 0 0 0 1-1v-9a1 1 0 0 0-1-1H5Z" clip-rule="evenodd"></path></svg></span></span></span></button></div><div class="code-sample-body code-sample-body-small code-sample-body-with-header"><div class="code-block hidden"><pre class="hljs syntax-highlighter dark-mode code-sample-pre"><code class="language-javascript" style="white-space: pre;"><code style="float: left; padding-right: 10px;"><span class="react-syntax-highlighter-line-number">1
+</span><span class="react-syntax-highlighter-line-number">2
+</span><span class="react-syntax-highlighter-line-number">3
+</span><span class="react-syntax-highlighter-line-number">4
+</span><span class="react-syntax-highlighter-line-number">5
+</span><span class="react-syntax-highlighter-line-number">6
+</span><span class="react-syntax-highlighter-line-number">7
+</span><span class="react-syntax-highlighter-line-number">8
+</span><span class="react-syntax-highlighter-line-number">9
+</span><span class="react-syntax-highlighter-line-number">10
+</span><span class="react-syntax-highlighter-line-number">11
+</span><span class="react-syntax-highlighter-line-number">12
+</span><span class="react-syntax-highlighter-line-number">13
+</span><span class="react-syntax-highlighter-line-number">14
+</span><span class="react-syntax-highlighter-line-number">15
+</span><span class="react-syntax-highlighter-line-number">16
+</span><span class="react-syntax-highlighter-line-number">17
+</span><span class="react-syntax-highlighter-line-number">18
+</span></code><span><span class="hljs-keyword">import</span><span> OpenAI </span><span class="hljs-keyword">from</span><span> </span><span class="hljs-string">"openai"</span><span>;
+</span></span><span><span></span><span class="hljs-keyword">const</span><span> client = </span><span class="hljs-keyword">new</span><span> OpenAI();
+</span></span><span>
+</span><span><span></span><span class="hljs-keyword">const</span><span> response = </span><span class="hljs-keyword">await</span><span> client.responses.create({
+</span></span><span><span>    </span><span class="hljs-attr">model</span><span>: </span><span class="hljs-string">"gpt-4.1"</span><span>,
+</span></span><span><span>    </span><span class="hljs-attr">input</span><span>: [
+</span></span><span>        {
+</span><span><span>            </span><span class="hljs-attr">role</span><span>: </span><span class="hljs-string">"developer"</span><span>,
+</span></span><span><span>            </span><span class="hljs-attr">content</span><span>: </span><span class="hljs-string">"Talk like a pirate."</span><span>
+</span></span><span>        },
+</span><span>        {
+</span><span><span>            </span><span class="hljs-attr">role</span><span>: </span><span class="hljs-string">"user"</span><span>,
+</span></span><span><span>            </span><span class="hljs-attr">content</span><span>: </span><span class="hljs-string">"Are semicolons optional in JavaScript?"</span><span>,
+</span></span><span>        },
+</span><span>    ],
+</span><span>});
+</span><span>
+</span><span><span></span><span class="hljs-built_in">console</span><span>.log(response.output_text);</span></span></code></pre></div><div class="code-block"><pre class="hljs syntax-highlighter dark-mode code-sample-pre"><code class="language-python" style="white-space: pre;"><code style="float: left; padding-right: 10px;"><span class="react-syntax-highlighter-line-number">1
+</span><span class="react-syntax-highlighter-line-number">2
+</span><span class="react-syntax-highlighter-line-number">3
+</span><span class="react-syntax-highlighter-line-number">4
+</span><span class="react-syntax-highlighter-line-number">5
+</span><span class="react-syntax-highlighter-line-number">6
+</span><span class="react-syntax-highlighter-line-number">7
+</span><span class="react-syntax-highlighter-line-number">8
+</span><span class="react-syntax-highlighter-line-number">9
+</span><span class="react-syntax-highlighter-line-number">10
+</span><span class="react-syntax-highlighter-line-number">11
+</span><span class="react-syntax-highlighter-line-number">12
+</span><span class="react-syntax-highlighter-line-number">13
+</span><span class="react-syntax-highlighter-line-number">14
+</span><span class="react-syntax-highlighter-line-number">15
+</span><span class="react-syntax-highlighter-line-number">16
+</span><span class="react-syntax-highlighter-line-number">17
+</span><span class="react-syntax-highlighter-line-number">18
+</span></code><span><span class="hljs-keyword">from</span><span> openai </span><span class="hljs-keyword">import</span><span> OpenAI
+</span></span><span>client = OpenAI()
+</span><span>
+</span><span>response = client.responses.create(
+</span><span><span>    model=</span><span class="hljs-string">"gpt-4.1"</span><span>,
+</span></span><span><span>    </span><span class="hljs-built_in">input</span><span>=[
+</span></span><span>        {
+</span><span><span>            </span><span class="hljs-string">"role"</span><span>: </span><span class="hljs-string">"developer"</span><span>,
+</span></span><span><span>            </span><span class="hljs-string">"content"</span><span>: </span><span class="hljs-string">"Talk like a pirate."</span><span>
+</span></span><span>        },
+</span><span>        {
+</span><span><span>            </span><span class="hljs-string">"role"</span><span>: </span><span class="hljs-string">"user"</span><span>,
+</span></span><span><span>            </span><span class="hljs-string">"content"</span><span>: </span><span class="hljs-string">"Are semicolons optional in JavaScript?"</span><span>
+</span></span><span>        }
+</span><span>    ]
+</span><span>)
+</span><span>
+</span><span><span></span><span class="hljs-built_in">print</span><span>(response.output_text)</span></span></code></pre></div><div class="code-block hidden"><pre class="hljs syntax-highlighter dark-mode code-sample-pre"><code class="language-bash" style="white-space: pre;"><code style="float: left; padding-right: 10px;"><span class="react-syntax-highlighter-line-number">1
+</span><span class="react-syntax-highlighter-line-number">2
+</span><span class="react-syntax-highlighter-line-number">3
+</span><span class="react-syntax-highlighter-line-number">4
+</span><span class="react-syntax-highlighter-line-number">5
+</span><span class="react-syntax-highlighter-line-number">6
+</span><span class="react-syntax-highlighter-line-number">7
+</span><span class="react-syntax-highlighter-line-number">8
+</span><span class="react-syntax-highlighter-line-number">9
+</span><span class="react-syntax-highlighter-line-number">10
+</span><span class="react-syntax-highlighter-line-number">11
+</span><span class="react-syntax-highlighter-line-number">12
+</span><span class="react-syntax-highlighter-line-number">13
+</span><span class="react-syntax-highlighter-line-number">14
+</span><span class="react-syntax-highlighter-line-number">15
+</span><span class="react-syntax-highlighter-line-number">16
+</span></code><span><span>curl </span><span class="hljs-string">"https://api.openai.com/v1/responses"</span><span> \
+</span></span><span><span>    -H </span><span class="hljs-string">"Content-Type: application/json"</span><span> \
+</span></span><span><span>    -H </span><span class="hljs-string">"Authorization: Bearer </span><span class="hljs-string hljs-variable">$OPENAI_API_KEY</span><span class="hljs-string">"</span><span> \
+</span></span><span><span>    -d </span><span class="hljs-string">'{
+</span></span><span class="hljs-string">        "model": "gpt-4.1",
+</span><span class="hljs-string">        "input": [
+</span><span class="hljs-string">            {
+</span><span class="hljs-string">                "role": "developer",
+</span><span class="hljs-string">                "content": "Talk like a pirate."
+</span><span class="hljs-string">            },
+</span><span class="hljs-string">            {
+</span><span class="hljs-string">                "role": "user",
+</span><span class="hljs-string">                "content": "Are semicolons optional in JavaScript?"
+</span><span class="hljs-string">            }
+</span><span class="hljs-string">        ]
+</span><span class="hljs-string">    }'</span></code></pre></div></div></div><div class="eyfSy"><div class="kQ2ry" data-variant="neutral"><div class="KtDSh"><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor" viewBox="0 0 24 24"><path d="M13 12a1 1 0 1 0-2 0v4a1 1 0 1 0 2 0v-4Zm-1-2.5A1.25 1.25 0 1 0 12 7a1.25 1.25 0 0 0 0 2.5Z"></path><path fill-rule="evenodd" d="M12 2C6.477 2 2 6.477 2 12s4.477 10 10 10 10-4.477 10-10S17.523 2 12 2ZM4 12a8 8 0 1 1 16 0 8 8 0 0 1-16 0Z" clip-rule="evenodd"></path></svg></div><div class="d3NUC"><div class="hFW1r"><div class="_9ohtt"><p>Note that the <code>instructions</code> parameter only applies to the current response generation request. If you are <a href="https://platform.openai.com/docs/guides/conversation-state">managing conversation state</a> with the <code>previous_response_id</code> parameter, the <code>instructions</code> used on previous turns will not be present in the context.</p></div></div></div></div></div>
+
+<p>The <a href="https://model-spec.openai.com/2025-02-12.html#chain_of_command" target="_blank" rel="noopener noreferrer">OpenAI model spec</a> describes how our models give different levels of priority to messages with different roles.</p>
+<table><thead><tr><th><code>developer</code></th><th><code>user</code></th><th><code>assistant</code></th></tr></thead><tbody><tr><td><code>developer</code> messages are instructions provided by the application developer, prioritized ahead of <code>user</code> messages.</td><td><code>user</code> messages are instructions provided by an end user, prioritized behind <code>developer</code> messages.</td><td>Messages generated by the model have the <code>assistant</code> role.</td></tr></tbody></table>
+<p>A multi-turn conversation may consist of several messages of these types, along with other content types provided by both you and the model. Learn more about <a href="https://platform.openai.com/docs/guides/conversation-state">managing conversation state here</a>.</p>
+<p>You could think about <code>developer</code> and <code>user</code> messages like a function and its arguments in a programming language.</p>
+<ul>
+<li><code>developer</code> messages provide the system's rules and business logic, like a function definition.</li>
+<li><code>user</code> messages provide inputs and configuration to which the <code>developer</code> message instructions are applied, like arguments to a function.</li>
+</ul>
+<div class="anchor-heading-wrapper"><h2 id="message-formatting-with-markdown-and-xml" class="anchor-heading" data-name="message-formatting-with-markdown-and-xml">Message formatting with Markdown and XML<svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" fill="currentColor" viewBox="0 0 24 24" class="anchor-heading-icon" role="presentation"><path fill-rule="evenodd" d="M18.293 5.707a4.657 4.657 0 0 0-6.586 0l-1 1a1 1 0 1 1-1.414-1.414l1-1a6.657 6.657 0 1 1 9.414 9.414l-1 1a1 1 0 0 1-1.414-1.414l1-1a4.657 4.657 0 0 0 0-6.586Zm-2.586 2.586a1 1 0 0 1 0 1.414l-6 6a1 1 0 0 1-1.414-1.414l6-6a1 1 0 0 1 1.414 0Zm-9 1a1 1 0 0 1 0 1.414l-1 1a4.657 4.657 0 0 0 6.586 6.586l1-1a1 1 0 0 1 1.414 1.414l-1 1a6.657 6.657 0 1 1-9.414-9.414l1-1a1 1 0 0 1 1.414 0Z" clip-rule="evenodd"></path></svg></h2></div>
+<p>When writing <code>developer</code> and <code>user</code> messages, you can help the model understand logical boundaries of your prompt and context data using a combination of <a href="https://commonmark.org/help/" target="_blank" rel="noopener noreferrer">Markdown</a> formatting and <a href="https://www.w3.org/TR/xml/" target="_blank" rel="noopener noreferrer">XML tags</a>.</p>
+<p>Markdown headers and lists can be helpful to mark distinct sections of a prompt, and to communicate hierarchy to the model. They can also potentially make your prompts more readable during development. XML tags can help delineate where one piece of content (like a supporting document used for reference) begins and ends. XML attributes can also be used to define metadata about content in the prompt that can be referenced by your instructions.</p>
+<p>In general, a developer message will contain the following sections, usually in this order (though the exact optimal content and order may vary by which model you are using):</p>
+<ul>
+<li><strong>Identity:</strong> Describe the purpose, communication style, and high-level goals of the assistant.</li>
+<li><strong>Instructions:</strong> Provide guidance to the model on how to generate the response you want. What rules should it follow? What should the model do, and what should the model never do? This section could contain many subsections as relevant for your use case, like how the model should <a href="https://platform.openai.com/docs/guides/function-calling">call custom functions</a>.</li>
+<li><strong>Examples:</strong> Provide examples of possible inputs, along with the desired output from the model.</li>
+<li><strong>Context:</strong> Give the model any additional information it might need to generate a response, like private/proprietary data outside its training data, or any other data you know will be particularly relevant. This content is usually best positioned near the end of your prompt, as you may include different context for different generation requests.</li>
+</ul>
+<p>Below is an example of using Markdown and XML tags to construct a <code>developer</code> message with distinct sections and supporting examples.</p>
+<div class="mt-6"><div class="mb-6 exclude-from-copy"><div class="flex"><div role="group" dir="ltr" class="Z6PRs" data-block="false" data-size="md" data-variant="pill" aria-label="Content switcher" tabindex="0" style="outline: none;"><div class="-X3Ew" data-variant="pill" style="width: 130px; transform: translateX(2px); transition: width var(--segmented-control-transition-duration) var(--cubic-enter), transform var(--segmented-control-transition-duration) var(--cubic-enter);"></div><button type="button" data-state="on" role="radio" aria-checked="true" class="fC8KU" tabindex="-1" data-radix-collection-item=""><span class="JfMyo" aria-hidden="true">Example prompt</span><span class="ZDw29">Example prompt</span></button><button type="button" data-state="off" role="radio" aria-checked="false" class="fC8KU" tabindex="-1" data-radix-collection-item=""><span class="JfMyo" aria-hidden="true">API request</span><span class="ZDw29">API request</span></button></div></div></div><div><div class="hidden">Example prompt</div><div class=""><div class="code-sample dark-mode"><div class="code-sample-header"><div class="code-sample-title body-small">A developer message for code generation</div><button type="button" class="Wmjjd Ry4P0" data-color="secondary" data-variant="bare" data-size="sm" data-gutter-size="xs" data-icon-size="sm"><span class="_6jr41"><span class="eRdFc" data-align="start"><span class="block beN8R"><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor" viewBox="0 0 24 24"><path fill-rule="evenodd" d="M7 5a3 3 0 0 1 3-3h9a3 3 0 0 1 3 3v9a3 3 0 0 1-3 3h-2v2a3 3 0 0 1-3 3H5a3 3 0 0 1-3-3v-9a3 3 0 0 1 3-3h2V5Zm2 2h5a3 3 0 0 1 3 3v5h2a1 1 0 0 0 1-1V5a1 1 0 0 0-1-1h-9a1 1 0 0 0-1 1v2ZM5 9a1 1 0 0 0-1 1v9a1 1 0 0 0 1 1h9a1 1 0 0 0 1-1v-9a1 1 0 0 0-1-1H5Z" clip-rule="evenodd"></path></svg></span></span></span></button></div><div class="code-sample-body code-sample-body-small code-sample-body-with-header"><pre class="hljs syntax-highlighter dark-mode code-sample-pre"><code class="language-text" style="white-space: pre;"><code style="float: left; padding-right: 10px;"><span class="react-syntax-highlighter-line-number">1
+</span><span class="react-syntax-highlighter-line-number">2
+</span><span class="react-syntax-highlighter-line-number">3
+</span><span class="react-syntax-highlighter-line-number">4
+</span><span class="react-syntax-highlighter-line-number">5
+</span><span class="react-syntax-highlighter-line-number">6
+</span><span class="react-syntax-highlighter-line-number">7
+</span><span class="react-syntax-highlighter-line-number">8
+</span><span class="react-syntax-highlighter-line-number">9
+</span><span class="react-syntax-highlighter-line-number">10
+</span><span class="react-syntax-highlighter-line-number">11
+</span><span class="react-syntax-highlighter-line-number">12
+</span><span class="react-syntax-highlighter-line-number">13
+</span><span class="react-syntax-highlighter-line-number">14
+</span><span class="react-syntax-highlighter-line-number">15
+</span><span class="react-syntax-highlighter-line-number">16
+</span><span class="react-syntax-highlighter-line-number">17
+</span><span class="react-syntax-highlighter-line-number">18
+</span><span class="react-syntax-highlighter-line-number">19
+</span><span class="react-syntax-highlighter-line-number">20
+</span><span class="react-syntax-highlighter-line-number">21
+</span><span class="react-syntax-highlighter-line-number">22
+</span><span class="react-syntax-highlighter-line-number">23
+</span><span class="react-syntax-highlighter-line-number">24
+</span></code><span><span># Identity
+</span></span><span>
+</span><span>You are coding assistant that helps enforce the use of snake case 
+</span><span>variables in JavaScript code, and writing code that will run in 
+</span><span>Internet Explorer version 6.
+</span><span>
+</span><span># Instructions
+</span><span>
+</span><span>* When defining variables, use snake case names (e.g. my_variable) 
+</span><span>  instead of camel case names (e.g. myVariable).
+</span><span>* To support old browsers, declare variables using the older 
+</span><span>  "var" keyword.
+</span><span>* Do not give responses with Markdown formatting, just return 
+</span><span>  the code as requested.
+</span><span>
+</span><span># Examples
+</span><span>
+</span><span>&lt;user_query&gt;
+</span><span>How do I declare a string variable for a first name?
+</span><span>&lt;/user_query&gt;
+</span><span>
+</span><span>&lt;assistant_response&gt;
+</span><span>var first_name = "Anna";
+</span><span>&lt;/assistant_response&gt;</span></code></pre></div></div></div></div><div><div class="hidden">API request</div><div class="hidden"><div class="code-sample dark-mode"><div class="code-sample-header"><div class="code-sample-title body-small">Send a prompt to generate code through the API</div><div class="exclude-from-copy"><button id="select-trigger-radix-:r1b:" type="button" class="ICo9Y" data-variant="bare" data-size="sm" data-gutter-size="xs" aria-haspopup="dialog" aria-expanded="false" aria-controls="radix-:r1d:" data-state="closed"><span class="RWOJJ">python</span><div class="relative flex items-center gap-2"><svg width="8" height="11" viewBox="0 0 10 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="uF-Qb"><path fill-rule="evenodd" clip-rule="evenodd" d="M4.34151 0.747423C4.71854 0.417526 5.28149 0.417526 5.65852 0.747423L9.65852 4.24742C10.0742 4.61111 10.1163 5.24287 9.75259 5.6585C9.38891 6.07414 8.75715 6.11626 8.34151 5.75258L5.00001 2.82877L1.65852 5.75258C1.24288 6.11626 0.61112 6.07414 0.247438 5.6585C-0.116244 5.24287 -0.0741267 4.61111 0.34151 4.24742L4.34151 0.747423ZM0.246065 10.3578C0.608879 9.94139 1.24055 9.89795 1.65695 10.2608L5.00001 13.1737L8.34308 10.2608C8.75948 9.89795 9.39115 9.94139 9.75396 10.3578C10.1168 10.7742 10.0733 11.4058 9.65695 11.7687L5.65695 15.2539C5.28043 15.582 4.7196 15.582 4.34308 15.2539L0.343082 11.7687C-0.0733128 11.4058 -0.116749 10.7742 0.246065 10.3578Z"></path></svg></div></button></div><button type="button" class="Wmjjd Ry4P0" data-color="secondary" data-variant="bare" data-size="sm" data-gutter-size="xs" data-icon-size="sm"><span class="_6jr41"><span class="eRdFc" data-align="start"><span class="block beN8R"><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor" viewBox="0 0 24 24"><path fill-rule="evenodd" d="M7 5a3 3 0 0 1 3-3h9a3 3 0 0 1 3 3v9a3 3 0 0 1-3 3h-2v2a3 3 0 0 1-3 3H5a3 3 0 0 1-3-3v-9a3 3 0 0 1 3-3h2V5Zm2 2h5a3 3 0 0 1 3 3v5h2a1 1 0 0 0 1-1V5a1 1 0 0 0-1-1h-9a1 1 0 0 0-1 1v2ZM5 9a1 1 0 0 0-1 1v9a1 1 0 0 0 1 1h9a1 1 0 0 0 1-1v-9a1 1 0 0 0-1-1H5Z" clip-rule="evenodd"></path></svg></span></span></span></button></div><div class="code-sample-body code-sample-body-small code-sample-body-with-header"><div class="code-block hidden"><pre class="hljs syntax-highlighter dark-mode code-sample-pre"><code class="language-javascript" style="white-space: pre;"><code style="float: left; padding-right: 10px;"><span class="react-syntax-highlighter-line-number">1
+</span><span class="react-syntax-highlighter-line-number">2
+</span><span class="react-syntax-highlighter-line-number">3
+</span><span class="react-syntax-highlighter-line-number">4
+</span><span class="react-syntax-highlighter-line-number">5
+</span><span class="react-syntax-highlighter-line-number">6
+</span><span class="react-syntax-highlighter-line-number">7
+</span><span class="react-syntax-highlighter-line-number">8
+</span><span class="react-syntax-highlighter-line-number">9
+</span><span class="react-syntax-highlighter-line-number">10
+</span><span class="react-syntax-highlighter-line-number">11
+</span><span class="react-syntax-highlighter-line-number">12
+</span><span class="react-syntax-highlighter-line-number">13
+</span></code><span><span class="hljs-keyword">import</span><span> fs </span><span class="hljs-keyword">from</span><span> </span><span class="hljs-string">"fs/promises"</span><span>;
+</span></span><span><span></span><span class="hljs-keyword">import</span><span> OpenAI </span><span class="hljs-keyword">from</span><span> </span><span class="hljs-string">"openai"</span><span>;
+</span></span><span><span></span><span class="hljs-keyword">const</span><span> client = </span><span class="hljs-keyword">new</span><span> OpenAI();
+</span></span><span>
+</span><span><span></span><span class="hljs-keyword">const</span><span> instructions = </span><span class="hljs-keyword">await</span><span> fs.readFile(</span><span class="hljs-string">"prompt.txt"</span><span>, </span><span class="hljs-string">"utf-8"</span><span>);
+</span></span><span>
+</span><span><span></span><span class="hljs-keyword">const</span><span> response = </span><span class="hljs-keyword">await</span><span> client.responses.create({
+</span></span><span><span>    </span><span class="hljs-attr">model</span><span>: </span><span class="hljs-string">"gpt-4.1"</span><span>,
+</span></span><span>    instructions,
+</span><span><span>    </span><span class="hljs-attr">input</span><span>: </span><span class="hljs-string">"How would I declare a variable for a last name?"</span><span>,
+</span></span><span>});
+</span><span>
+</span><span><span></span><span class="hljs-built_in">console</span><span>.log(response.output_text);</span></span></code></pre></div><div class="code-block"><pre class="hljs syntax-highlighter dark-mode code-sample-pre"><code class="language-python" style="white-space: pre;"><code style="float: left; padding-right: 10px;"><span class="react-syntax-highlighter-line-number">1
+</span><span class="react-syntax-highlighter-line-number">2
+</span><span class="react-syntax-highlighter-line-number">3
+</span><span class="react-syntax-highlighter-line-number">4
+</span><span class="react-syntax-highlighter-line-number">5
+</span><span class="react-syntax-highlighter-line-number">6
+</span><span class="react-syntax-highlighter-line-number">7
+</span><span class="react-syntax-highlighter-line-number">8
+</span><span class="react-syntax-highlighter-line-number">9
+</span><span class="react-syntax-highlighter-line-number">10
+</span><span class="react-syntax-highlighter-line-number">11
+</span><span class="react-syntax-highlighter-line-number">12
+</span><span class="react-syntax-highlighter-line-number">13
+</span></code><span><span class="hljs-keyword">from</span><span> openai </span><span class="hljs-keyword">import</span><span> OpenAI
+</span></span><span>client = OpenAI()
+</span><span>
+</span><span><span></span><span class="hljs-keyword">with</span><span> </span><span class="hljs-built_in">open</span><span>(</span><span class="hljs-string">"prompt.txt"</span><span>, </span><span class="hljs-string">"r"</span><span>, encoding=</span><span class="hljs-string">"utf-8"</span><span>) </span><span class="hljs-keyword">as</span><span> f:
+</span></span><span>    instructions = f.read()
+</span><span>
+</span><span>response = client.responses.create(
+</span><span><span>    model=</span><span class="hljs-string">"gpt-4.1"</span><span>,
+</span></span><span>    instructions=instructions,
+</span><span><span>    </span><span class="hljs-built_in">input</span><span>=</span><span class="hljs-string">"How would I declare a variable for a last name?"</span><span>,
+</span></span><span>)
+</span><span>
+</span><span><span></span><span class="hljs-built_in">print</span><span>(response.output_text)</span></span></code></pre></div><div class="code-block hidden"><pre class="hljs syntax-highlighter dark-mode code-sample-pre"><code class="language-bash" style="white-space: pre;"><code style="float: left; padding-right: 10px;"><span class="react-syntax-highlighter-line-number">1
+</span><span class="react-syntax-highlighter-line-number">2
+</span><span class="react-syntax-highlighter-line-number">3
+</span><span class="react-syntax-highlighter-line-number">4
+</span><span class="react-syntax-highlighter-line-number">5
+</span><span class="react-syntax-highlighter-line-number">6
+</span><span class="react-syntax-highlighter-line-number">7
+</span><span class="react-syntax-highlighter-line-number">8
+</span></code><span><span>curl https://api.openai.com/v1/responses \
+</span></span><span><span>  -H </span><span class="hljs-string">"Authorization: Bearer </span><span class="hljs-string hljs-variable">$OPENAI_API_KEY</span><span class="hljs-string">"</span><span> \
+</span></span><span><span>  -H </span><span class="hljs-string">"Content-Type: application/json"</span><span> \
+</span></span><span><span>  -d </span><span class="hljs-string">'{
+</span></span><span class="hljs-string">    "model": "gpt-4.1",
+</span><span><span class="hljs-string">    "instructions": "'</span><span class="hljs-string">"</span><span class="hljs-string hljs-subst">$(&lt; prompt.txt)</span><span class="hljs-string">"</span><span class="hljs-string">'",
+</span></span><span class="hljs-string">    "input": "How would I declare a variable for a last name?"
+</span><span class="hljs-string">  }'</span></code></pre></div></div></div></div></div></div>
+<div class="anchor-heading-wrapper"><h4 id="save-on-cost-and-latency-with-prompt-caching" class="anchor-heading" data-name="save-on-cost-and-latency-with-prompt-caching">Save on cost and latency with prompt caching<svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" fill="currentColor" viewBox="0 0 24 24" class="anchor-heading-icon" role="presentation"><path fill-rule="evenodd" d="M18.293 5.707a4.657 4.657 0 0 0-6.586 0l-1 1a1 1 0 1 1-1.414-1.414l1-1a6.657 6.657 0 1 1 9.414 9.414l-1 1a1 1 0 0 1-1.414-1.414l1-1a4.657 4.657 0 0 0 0-6.586Zm-2.586 2.586a1 1 0 0 1 0 1.414l-6 6a1 1 0 0 1-1.414-1.414l6-6a1 1 0 0 1 1.414 0Zm-9 1a1 1 0 0 1 0 1.414l-1 1a4.657 4.657 0 0 0 6.586 6.586l1-1a1 1 0 0 1 1.414 1.414l-1 1a6.657 6.657 0 1 1-9.414-9.414l1-1a1 1 0 0 1 1.414 0Z" clip-rule="evenodd"></path></svg></h4></div>
+<p>When constructing a message, you should try and keep content that you expect to use over and over in your API requests at the beginning of your prompt, <strong>and</strong> among the first API parameters you pass in the JSON request body to <a href="https://platform.openai.com/docs/api-reference/chat">Chat Completions</a> or <a href="https://platform.openai.com/docs/api-reference/responses">Responses</a>. This enables you to maximize cost and latency savings from <a href="https://platform.openai.com/docs/guides/prompt-caching">prompt caching</a>.</p>
+<div class="anchor-heading-wrapper"><h2 id="few-shot-learning" class="anchor-heading" data-name="few-shot-learning">Few-shot learning<svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" fill="currentColor" viewBox="0 0 24 24" class="anchor-heading-icon" role="presentation"><path fill-rule="evenodd" d="M18.293 5.707a4.657 4.657 0 0 0-6.586 0l-1 1a1 1 0 1 1-1.414-1.414l1-1a6.657 6.657 0 1 1 9.414 9.414l-1 1a1 1 0 0 1-1.414-1.414l1-1a4.657 4.657 0 0 0 0-6.586Zm-2.586 2.586a1 1 0 0 1 0 1.414l-6 6a1 1 0 0 1-1.414-1.414l6-6a1 1 0 0 1 1.414 0Zm-9 1a1 1 0 0 1 0 1.414l-1 1a4.657 4.657 0 0 0 6.586 6.586l1-1a1 1 0 0 1 1.414 1.414l-1 1a6.657 6.657 0 1 1-9.414-9.414l1-1a1 1 0 0 1 1.414 0Z" clip-rule="evenodd"></path></svg></h2></div>
+<p>Few-shot learning lets you steer a large language model toward a new task by including a handful of input/output examples in the prompt, rather than <a href="https://platform.openai.com/docs/guides/fine-tuning">fine-tuning</a> the model. The model implicitly "picks up" the pattern from those examples and applies it to a prompt. When providing examples, try to show a diverse range of possible inputs with the desired outputs.</p>
+<p>Typically, you will provide examples as part of a <code>developer</code> message in your API request. Here's an example <code>developer</code> message containing examples that show a model how to classify positive or negative customer service reviews.</p>
+<div class="code-sample dark-mode"><div class="code-sample-body code-sample-body-large"><div class="code-sample-copy-float"><button type="button" class="Wmjjd Ry4P0" data-color="secondary" data-variant="bare" data-size="sm" data-gutter-size="xs" data-icon-size="sm"><span class="_6jr41"><span class="eRdFc" data-align="start"><span class="block beN8R"><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor" viewBox="0 0 24 24"><path fill-rule="evenodd" d="M7 5a3 3 0 0 1 3-3h9a3 3 0 0 1 3 3v9a3 3 0 0 1-3 3h-2v2a3 3 0 0 1-3 3H5a3 3 0 0 1-3-3v-9a3 3 0 0 1 3-3h2V5Zm2 2h5a3 3 0 0 1 3 3v5h2a1 1 0 0 0 1-1V5a1 1 0 0 0-1-1h-9a1 1 0 0 0-1 1v2ZM5 9a1 1 0 0 0-1 1v9a1 1 0 0 0 1 1h9a1 1 0 0 0 1-1v-9a1 1 0 0 0-1-1H5Z" clip-rule="evenodd"></path></svg></span></span></span></button></div><pre class="hljs syntax-highlighter dark-mode code-sample-pre"><code class="language-text" style="white-space: pre;"><code style="float: left; padding-right: 10px;"><span class="react-syntax-highlighter-line-number">1
+</span><span class="react-syntax-highlighter-line-number">2
+</span><span class="react-syntax-highlighter-line-number">3
+</span><span class="react-syntax-highlighter-line-number">4
+</span><span class="react-syntax-highlighter-line-number">5
+</span><span class="react-syntax-highlighter-line-number">6
+</span><span class="react-syntax-highlighter-line-number">7
+</span><span class="react-syntax-highlighter-line-number">8
+</span><span class="react-syntax-highlighter-line-number">9
+</span><span class="react-syntax-highlighter-line-number">10
+</span><span class="react-syntax-highlighter-line-number">11
+</span><span class="react-syntax-highlighter-line-number">12
+</span><span class="react-syntax-highlighter-line-number">13
+</span><span class="react-syntax-highlighter-line-number">14
+</span><span class="react-syntax-highlighter-line-number">15
+</span><span class="react-syntax-highlighter-line-number">16
+</span><span class="react-syntax-highlighter-line-number">17
+</span><span class="react-syntax-highlighter-line-number">18
+</span><span class="react-syntax-highlighter-line-number">19
+</span><span class="react-syntax-highlighter-line-number">20
+</span><span class="react-syntax-highlighter-line-number">21
+</span><span class="react-syntax-highlighter-line-number">22
+</span><span class="react-syntax-highlighter-line-number">23
+</span><span class="react-syntax-highlighter-line-number">24
+</span><span class="react-syntax-highlighter-line-number">25
+</span><span class="react-syntax-highlighter-line-number">26
+</span><span class="react-syntax-highlighter-line-number">27
+</span><span class="react-syntax-highlighter-line-number">28
+</span><span class="react-syntax-highlighter-line-number">29
+</span><span class="react-syntax-highlighter-line-number">30
+</span><span class="react-syntax-highlighter-line-number">31
+</span><span class="react-syntax-highlighter-line-number">32
+</span><span class="react-syntax-highlighter-line-number">33
+</span><span class="react-syntax-highlighter-line-number">34
+</span><span class="react-syntax-highlighter-line-number">35
+</span><span class="react-syntax-highlighter-line-number">36
+</span><span class="react-syntax-highlighter-line-number">37
+</span></code><span><span># Identity
+</span></span><span>
+</span><span>You are a helpful assistant that labels short product reviews as 
+</span><span>Positive, Negative, or Neutral.
+</span><span>
+</span><span># Instructions
+</span><span>
+</span><span>* Only output a single word in your response with no additional formatting
+</span><span>  or commentary.
+</span><span>* Your response should only be one of the words "Positive", "Negative", or
+</span><span>  "Neutral" depending on the sentiment of the product review you are given.
+</span><span>
+</span><span># Examples
+</span><span>
+</span><span>&lt;product_review id="example-1"&gt;
+</span><span>I absolutely love this headphones — sound quality is amazing!
+</span><span>&lt;/product_review&gt;
+</span><span>
+</span><span>&lt;assistant_response id="example-1"&gt;
+</span><span>Positive
+</span><span>&lt;/assistant_response&gt;
+</span><span>
+</span><span>&lt;product_review id="example-2"&gt;
+</span><span>Battery life is okay, but the ear pads feel cheap.
+</span><span>&lt;/product_review&gt;
+</span><span>
+</span><span>&lt;assistant_response id="example-2"&gt;
+</span><span>Neutral
+</span><span>&lt;/assistant_response&gt;
+</span><span>
+</span><span>&lt;product_review id="example-3"&gt;
+</span><span>Terrible customer service, I'll never buy from them again.
+</span><span>&lt;/product_review&gt;
+</span><span>
+</span><span>&lt;assistant_response id="example-3"&gt;
+</span><span>Negative
+</span><span>&lt;/assistant_response&gt;</span></code></pre></div></div>
+<div class="anchor-heading-wrapper"><h2 id="include-relevant-context-information" class="anchor-heading" data-name="include-relevant-context-information">Include relevant context information<svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" fill="currentColor" viewBox="0 0 24 24" class="anchor-heading-icon" role="presentation"><path fill-rule="evenodd" d="M18.293 5.707a4.657 4.657 0 0 0-6.586 0l-1 1a1 1 0 1 1-1.414-1.414l1-1a6.657 6.657 0 1 1 9.414 9.414l-1 1a1 1 0 0 1-1.414-1.414l1-1a4.657 4.657 0 0 0 0-6.586Zm-2.586 2.586a1 1 0 0 1 0 1.414l-6 6a1 1 0 0 1-1.414-1.414l6-6a1 1 0 0 1 1.414 0Zm-9 1a1 1 0 0 1 0 1.414l-1 1a4.657 4.657 0 0 0 6.586 6.586l1-1a1 1 0 0 1 1.414 1.414l-1 1a6.657 6.657 0 1 1-9.414-9.414l1-1a1 1 0 0 1 1.414 0Z" clip-rule="evenodd"></path></svg></h2></div>
+<p>It is often useful to include additional context information the model can use to generate a response within the prompt you give the model. There are a few common reasons why you might do this:</p>
+<ul>
+<li>To give the model access to proprietary data, or any other data outside the data set the model was trained on.</li>
+<li>To constrain the model's response to a specific set of resources that you have determined will be most beneficial.</li>
+</ul>
+<p>The technique of adding additional relevant context to the model generation request is sometimes called <strong>retrieval-augmented generation (RAG)</strong>. You can add additional context to the prompt in many different ways, from querying a vector database and including the text you get back into a prompt, or by using OpenAI's built-in <a href="https://platform.openai.com/docs/guides/tools-file-search">file search tool</a> to generate content based on uploaded documents.</p>
+<div class="anchor-heading-wrapper"><h4 id="planning-for-the-context-window" class="anchor-heading" data-name="planning-for-the-context-window">Planning for the context window<svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" fill="currentColor" viewBox="0 0 24 24" class="anchor-heading-icon" role="presentation"><path fill-rule="evenodd" d="M18.293 5.707a4.657 4.657 0 0 0-6.586 0l-1 1a1 1 0 1 1-1.414-1.414l1-1a6.657 6.657 0 1 1 9.414 9.414l-1 1a1 1 0 0 1-1.414-1.414l1-1a4.657 4.657 0 0 0 0-6.586Zm-2.586 2.586a1 1 0 0 1 0 1.414l-6 6a1 1 0 0 1-1.414-1.414l6-6a1 1 0 0 1 1.414 0Zm-9 1a1 1 0 0 1 0 1.414l-1 1a4.657 4.657 0 0 0 6.586 6.586l1-1a1 1 0 0 1 1.414 1.414l-1 1a6.657 6.657 0 1 1-9.414-9.414l1-1a1 1 0 0 1 1.414 0Z" clip-rule="evenodd"></path></svg></h4></div>
+<p>Models can only handle so much data within the context they consider during a generation request. This memory limit is called a <strong>context window</strong>, which is defined in terms of <a href="https://blogs.nvidia.com/blog/ai-tokens-explained" target="_blank" rel="noopener noreferrer">tokens</a> (chunks of data you pass in, from text to images).</p>
+<p>Models have different context window sizes from the low 100k range up to one million tokens for newer GPT-4.1 models. <a href="https://platform.openai.com/docs/models">Refer to the model docs</a> for specific context window sizes per model.</p>
+<div class="anchor-heading-wrapper"><h2 id="prompting-gpt-4-1-models" class="anchor-heading" data-name="prompting-gpt-4-1-models">Prompting GPT-4.1 models<svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" fill="currentColor" viewBox="0 0 24 24" class="anchor-heading-icon" role="presentation"><path fill-rule="evenodd" d="M18.293 5.707a4.657 4.657 0 0 0-6.586 0l-1 1a1 1 0 1 1-1.414-1.414l1-1a6.657 6.657 0 1 1 9.414 9.414l-1 1a1 1 0 0 1-1.414-1.414l1-1a4.657 4.657 0 0 0 0-6.586Zm-2.586 2.586a1 1 0 0 1 0 1.414l-6 6a1 1 0 0 1-1.414-1.414l6-6a1 1 0 0 1 1.414 0Zm-9 1a1 1 0 0 1 0 1.414l-1 1a4.657 4.657 0 0 0 6.586 6.586l1-1a1 1 0 0 1 1.414 1.414l-1 1a6.657 6.657 0 1 1-9.414-9.414l1-1a1 1 0 0 1 1.414 0Z" clip-rule="evenodd"></path></svg></h2></div>
+<p>GPT models like <a href="https://platform.openai.com/docs/models/gpt-4.1"><code>gpt-4.1</code></a> benefit from precise instructions that explicitly provide the logic and data required to complete the task in the prompt. GPT-4.1 in particular is highly steerable and responsive to well-specified prompts. To get the most out of GPT-4.1, refer to the prompting guide in the cookbook.</p>
+<a href="https://cookbook.openai.com/examples/gpt4-1_prompting_guide" target="_blank" rel="noreferrer"><div class="icon-item mt-2"><div class="icon-item-icon"><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor" viewBox="0 0 24 24"><path fill-rule="evenodd" d="M14.447 7.106a1 1 0 0 1 .447 1.341l-4 8a1 1 0 1 1-1.788-.894l4-8a1 1 0 0 1 1.341-.447ZM6.6 7.2a1 1 0 0 1 .2 1.4L4.25 12l2.55 3.4a1 1 0 0 1-1.6 1.2l-3-4a1 1 0 0 1 0-1.2l3-4a1 1 0 0 1 1.4-.2Zm10.8 0a1 1 0 0 1 1.4.2l3 4a1 1 0 0 1 0 1.2l-3 4a1 1 0 0 1-1.6-1.2l2.55-3.4-2.55-3.4a1 1 0 0 1 .2-1.4Z" clip-rule="evenodd"></path></svg></div><div class="icon-item-right"><div class="icon-item-title"><div class="icon-item-title body-large">GPT-4.1 prompting guide</div><div class="pointer"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24"><path fill-rule="evenodd" d="M9.293 7.293a1 1 0 0 1 1.414 0l4 4a1 1 0 0 1 0 1.414l-4 4a1 1 0 0 1-1.414-1.414L12.586 12 9.293 8.707a1 1 0 0 1 0-1.414Z" clip-rule="evenodd"></path></svg></div></div><div class="icon-item-desc body-small"><p>Get the most out of prompting GPT-4.1 with the tips and tricks in this
+prompting guide, extracted from real-world use cases and practical
+experience.</p></div></div></div></a>
+<div class="anchor-heading-wrapper"><h4 id="gpt-4-1-prompting-best-practices" class="anchor-heading" data-name="gpt-4-1-prompting-best-practices">GPT-4.1 prompting best practices<svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" fill="currentColor" viewBox="0 0 24 24" class="anchor-heading-icon" role="presentation"><path fill-rule="evenodd" d="M18.293 5.707a4.657 4.657 0 0 0-6.586 0l-1 1a1 1 0 1 1-1.414-1.414l1-1a6.657 6.657 0 1 1 9.414 9.414l-1 1a1 1 0 0 1-1.414-1.414l1-1a4.657 4.657 0 0 0 0-6.586Zm-2.586 2.586a1 1 0 0 1 0 1.414l-6 6a1 1 0 0 1-1.414-1.414l6-6a1 1 0 0 1 1.414 0Zm-9 1a1 1 0 0 1 0 1.414l-1 1a4.657 4.657 0 0 0 6.586 6.586l1-1a1 1 0 0 1 1.414 1.414l-1 1a6.657 6.657 0 1 1-9.414-9.414l1-1a1 1 0 0 1 1.414 0Z" clip-rule="evenodd"></path></svg></h4></div>
+<p>While the <a href="https://cookbook.openai.com/examples/gpt4-1_prompting_guide" target="_blank" rel="noopener noreferrer">cookbook</a> has the best and most comprehensive guidance for prompting this model, here are a few best practices to keep in mind.</p>
+<div class="expn"><div class="expn-title" role="button" aria-expanded="false" aria-controls="expander-0"><div class="expn-icon"><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor" viewBox="0 0 24 24"><path fill-rule="evenodd" d="M8.293 4.293a1 1 0 0 1 1.414 0l7 7a1 1 0 0 1 0 1.414l-7 7a1 1 0 0 1-1.414-1.414L14.586 12 8.293 5.707a1 1 0 0 1 0-1.414Z" clip-rule="evenodd"></path></svg></div><div class="expn-label">Building agentic workflows</div></div><div class="expn-content hidden" id="expander-0"><div class="anchor-heading-wrapper"><h3 id="system-prompt-reminders" class="anchor-heading" data-name="system-prompt-reminders">System Prompt Reminders<svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" fill="currentColor" viewBox="0 0 24 24" class="anchor-heading-icon" role="presentation"><path fill-rule="evenodd" d="M18.293 5.707a4.657 4.657 0 0 0-6.586 0l-1 1a1 1 0 1 1-1.414-1.414l1-1a6.657 6.657 0 1 1 9.414 9.414l-1 1a1 1 0 0 1-1.414-1.414l1-1a4.657 4.657 0 0 0 0-6.586Zm-2.586 2.586a1 1 0 0 1 0 1.414l-6 6a1 1 0 0 1-1.414-1.414l6-6a1 1 0 0 1 1.414 0Zm-9 1a1 1 0 0 1 0 1.414l-1 1a4.657 4.657 0 0 0 6.586 6.586l1-1a1 1 0 0 1 1.414 1.414l-1 1a6.657 6.657 0 1 1-9.414-9.414l1-1a1 1 0 0 1 1.414 0Z" clip-rule="evenodd"></path></svg></h3></div><p>In order to best utilize the agentic capabilities of GPT-4.1, we recommend including three key types of reminders in all agent prompts for persistence, tool calling, and planning. As a whole, we find that these three instructions transform the model's behavior from chatbot-like into a much more “eager” agent, driving the interaction forward autonomously and independently. Here are a few examples:</p><div class="code-sample dark-mode"><div class="code-sample-body code-sample-body-large"><div class="code-sample-copy-float"><button type="button" class="Wmjjd Ry4P0" data-color="secondary" data-variant="bare" data-size="sm" data-gutter-size="xs" data-icon-size="sm"><span class="_6jr41"><span class="eRdFc" data-align="start"><span class="block beN8R"><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor" viewBox="0 0 24 24"><path fill-rule="evenodd" d="M7 5a3 3 0 0 1 3-3h9a3 3 0 0 1 3 3v9a3 3 0 0 1-3 3h-2v2a3 3 0 0 1-3 3H5a3 3 0 0 1-3-3v-9a3 3 0 0 1 3-3h2V5Zm2 2h5a3 3 0 0 1 3 3v5h2a1 1 0 0 0 1-1V5a1 1 0 0 0-1-1h-9a1 1 0 0 0-1 1v2ZM5 9a1 1 0 0 0-1 1v9a1 1 0 0 0 1 1h9a1 1 0 0 0 1-1v-9a1 1 0 0 0-1-1H5Z" clip-rule="evenodd"></path></svg></span></span></span></button></div><pre class="hljs syntax-highlighter dark-mode code-sample-pre"><code class="language-text" style="white-space: pre;"><code style="float: left; padding-right: 10px;"><span class="react-syntax-highlighter-line-number">1
+</span><span class="react-syntax-highlighter-line-number">2
+</span><span class="react-syntax-highlighter-line-number">3
+</span><span class="react-syntax-highlighter-line-number">4
+</span><span class="react-syntax-highlighter-line-number">5
+</span><span class="react-syntax-highlighter-line-number">6
+</span><span class="react-syntax-highlighter-line-number">7
+</span><span class="react-syntax-highlighter-line-number">8
+</span><span class="react-syntax-highlighter-line-number">9
+</span><span class="react-syntax-highlighter-line-number">10
+</span><span class="react-syntax-highlighter-line-number">11
+</span><span class="react-syntax-highlighter-line-number">12
+</span><span class="react-syntax-highlighter-line-number">13
+</span><span class="react-syntax-highlighter-line-number">14
+</span><span class="react-syntax-highlighter-line-number">15
+</span></code><span><span>## PERSISTENCE
+</span></span><span>You are an agent - please keep going until the user's query is completely 
+</span><span>resolved, before ending your turn and yielding back to the user. Only 
+</span><span>terminate your turn when you are sure that the problem is solved.
+</span><span>
+</span><span>## TOOL CALLING
+</span><span>If you are not sure about file content or codebase structure pertaining to 
+</span><span>the user's request, use your tools to read files and gather the relevant 
+</span><span>information: do NOT guess or make up an answer.
+</span><span>
+</span><span>## PLANNING
+</span><span>You MUST plan extensively before each function call, and reflect 
+</span><span>extensively on the outcomes of the previous function calls. DO NOT do this 
+</span><span>entire process by making function calls only, as this can impair your 
+</span><span>ability to solve the problem and think insightfully.</span></code></pre></div></div><div class="anchor-heading-wrapper"><h4 id="tool-calls" class="anchor-heading" data-name="tool-calls">Tool Calls<svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" fill="currentColor" viewBox="0 0 24 24" class="anchor-heading-icon" role="presentation"><path fill-rule="evenodd" d="M18.293 5.707a4.657 4.657 0 0 0-6.586 0l-1 1a1 1 0 1 1-1.414-1.414l1-1a6.657 6.657 0 1 1 9.414 9.414l-1 1a1 1 0 0 1-1.414-1.414l1-1a4.657 4.657 0 0 0 0-6.586Zm-2.586 2.586a1 1 0 0 1 0 1.414l-6 6a1 1 0 0 1-1.414-1.414l6-6a1 1 0 0 1 1.414 0Zm-9 1a1 1 0 0 1 0 1.414l-1 1a4.657 4.657 0 0 0 6.586 6.586l1-1a1 1 0 0 1 1.414 1.414l-1 1a6.657 6.657 0 1 1-9.414-9.414l1-1a1 1 0 0 1 1.414 0Z" clip-rule="evenodd"></path></svg></h4></div><p>Compared to previous models, GPT-4.1 has undergone more training on effectively utilizing tools passed as arguments in an OpenAI API request. We encourage developers to exclusively use the tools field of API requests to pass tools for best understanding and performance, rather than manually injecting tool descriptions into the system prompt and writing a separate parser for tool calls, as some have reported doing in the past.</p><div class="anchor-heading-wrapper"><h4 id="diff-generation" class="anchor-heading" data-name="diff-generation">Diff Generation<svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" fill="currentColor" viewBox="0 0 24 24" class="anchor-heading-icon" role="presentation"><path fill-rule="evenodd" d="M18.293 5.707a4.657 4.657 0 0 0-6.586 0l-1 1a1 1 0 1 1-1.414-1.414l1-1a6.657 6.657 0 1 1 9.414 9.414l-1 1a1 1 0 0 1-1.414-1.414l1-1a4.657 4.657 0 0 0 0-6.586Zm-2.586 2.586a1 1 0 0 1 0 1.414l-6 6a1 1 0 0 1-1.414-1.414l6-6a1 1 0 0 1 1.414 0Zm-9 1a1 1 0 0 1 0 1.414l-1 1a4.657 4.657 0 0 0 6.586 6.586l1-1a1 1 0 0 1 1.414 1.414l-1 1a6.657 6.657 0 1 1-9.414-9.414l1-1a1 1 0 0 1 1.414 0Z" clip-rule="evenodd"></path></svg></h4></div><p>Correct diffs are critical for coding applications, so we've significantly improved performance at this task for GPT-4.1. In our cookbook, we open-source a recommended diff format on which GPT-4.1 has been extensively trained. That said, the model should generalize to any well-specified format.</p></div></div>
+<div class="expn"><div class="expn-title" role="button" aria-expanded="false" aria-controls="expander-1"><div class="expn-icon"><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor" viewBox="0 0 24 24"><path fill-rule="evenodd" d="M8.293 4.293a1 1 0 0 1 1.414 0l7 7a1 1 0 0 1 0 1.414l-7 7a1 1 0 0 1-1.414-1.414L14.586 12 8.293 5.707a1 1 0 0 1 0-1.414Z" clip-rule="evenodd"></path></svg></div><div class="expn-label">Using long context</div></div><div class="expn-content hidden" id="expander-1"><p>GPT-4.1 has a performant 1M token input context window, and will be useful for a variety of long context tasks, including structured document parsing, re-ranking, selecting relevant information while ignoring irrelevant context, and performing multi-hop reasoning using context.</p><div class="anchor-heading-wrapper"><h4 id="optimal-context-size" class="anchor-heading" data-name="optimal-context-size">Optimal Context Size<svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" fill="currentColor" viewBox="0 0 24 24" class="anchor-heading-icon" role="presentation"><path fill-rule="evenodd" d="M18.293 5.707a4.657 4.657 0 0 0-6.586 0l-1 1a1 1 0 1 1-1.414-1.414l1-1a6.657 6.657 0 1 1 9.414 9.414l-1 1a1 1 0 0 1-1.414-1.414l1-1a4.657 4.657 0 0 0 0-6.586Zm-2.586 2.586a1 1 0 0 1 0 1.414l-6 6a1 1 0 0 1-1.414-1.414l6-6a1 1 0 0 1 1.414 0Zm-9 1a1 1 0 0 1 0 1.414l-1 1a4.657 4.657 0 0 0 6.586 6.586l1-1a1 1 0 0 1 1.414 1.414l-1 1a6.657 6.657 0 1 1-9.414-9.414l1-1a1 1 0 0 1 1.414 0Z" clip-rule="evenodd"></path></svg></h4></div><p>We show perfect performance at needle-in-a-haystack evals up to our full context size, and we've observed very strong performance at complex tasks with a mix of relevant and irrelevant code and documents in the range of hundreds of thousands of tokens.</p><div class="anchor-heading-wrapper"><h4 id="delimiters" class="anchor-heading" data-name="delimiters">Delimiters<svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" fill="currentColor" viewBox="0 0 24 24" class="anchor-heading-icon" role="presentation"><path fill-rule="evenodd" d="M18.293 5.707a4.657 4.657 0 0 0-6.586 0l-1 1a1 1 0 1 1-1.414-1.414l1-1a6.657 6.657 0 1 1 9.414 9.414l-1 1a1 1 0 0 1-1.414-1.414l1-1a4.657 4.657 0 0 0 0-6.586Zm-2.586 2.586a1 1 0 0 1 0 1.414l-6 6a1 1 0 0 1-1.414-1.414l6-6a1 1 0 0 1 1.414 0Zm-9 1a1 1 0 0 1 0 1.414l-1 1a4.657 4.657 0 0 0 6.586 6.586l1-1a1 1 0 0 1 1.414 1.414l-1 1a6.657 6.657 0 1 1-9.414-9.414l1-1a1 1 0 0 1 1.414 0Z" clip-rule="evenodd"></path></svg></h4></div><p>We tested a variety of delimiters for separating context provided to the model against our long context evals. Briefly, XML and the format demonstrated by Lee et al. (<a href="https://arxiv.org/pdf/2406.13121" target="_blank" rel="noopener noreferrer">ref</a>) tend to perform well, while JSON performed worse for this task. See our cookbook for prompt examples.</p><div class="anchor-heading-wrapper"><h4 id="prompt-organization" class="anchor-heading" data-name="prompt-organization">Prompt Organization<svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" fill="currentColor" viewBox="0 0 24 24" class="anchor-heading-icon" role="presentation"><path fill-rule="evenodd" d="M18.293 5.707a4.657 4.657 0 0 0-6.586 0l-1 1a1 1 0 1 1-1.414-1.414l1-1a6.657 6.657 0 1 1 9.414 9.414l-1 1a1 1 0 0 1-1.414-1.414l1-1a4.657 4.657 0 0 0 0-6.586Zm-2.586 2.586a1 1 0 0 1 0 1.414l-6 6a1 1 0 0 1-1.414-1.414l6-6a1 1 0 0 1 1.414 0Zm-9 1a1 1 0 0 1 0 1.414l-1 1a4.657 4.657 0 0 0 6.586 6.586l1-1a1 1 0 0 1 1.414 1.414l-1 1a6.657 6.657 0 1 1-9.414-9.414l1-1a1 1 0 0 1 1.414 0Z" clip-rule="evenodd"></path></svg></h4></div><p>Especially in long context usage, placement of instructions and context can substantially impact performance. In our experiments, we found that it was optimal to put critical instructions, including the user query, at both the top and the bottom of the prompt; this elicited marginally better performance from the model than putting them only at the top, and much better performance than only at the bottom.</p></div></div>
+<div class="expn"><div class="expn-title" role="button" aria-expanded="false" aria-controls="expander-2"><div class="expn-icon"><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor" viewBox="0 0 24 24"><path fill-rule="evenodd" d="M8.293 4.293a1 1 0 0 1 1.414 0l7 7a1 1 0 0 1 0 1.414l-7 7a1 1 0 0 1-1.414-1.414L14.586 12 8.293 5.707a1 1 0 0 1 0-1.414Z" clip-rule="evenodd"></path></svg></div><div class="expn-label">Prompting for chain of thought</div></div><div class="expn-content hidden" id="expander-2"><p>As mentioned above, GPT-4.1 isn’t a reasoning model, but prompting the model to think step by step (called “chain of thought”) can be an effective way for a model to break down problems into more manageable pieces. The model has been trained to perform well at agentic reasoning and real-world problem solving, so it shouldn’t require much prompting to do well.</p><p>We recommend starting with this basic chain-of-thought instruction at the end of your prompt:</p><div class="code-sample code-sample-oneliner dark-mode"><div class="code-sample-body code-sample-body-large"><div class="code-sample-copy-float"><button type="button" class="Wmjjd Ry4P0" data-color="secondary" data-variant="bare" data-size="sm" data-gutter-size="xs" data-icon-size="sm"><span class="_6jr41"><span class="eRdFc" data-align="start"><span class="block beN8R"><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor" viewBox="0 0 24 24"><path fill-rule="evenodd" d="M7 5a3 3 0 0 1 3-3h9a3 3 0 0 1 3 3v9a3 3 0 0 1-3 3h-2v2a3 3 0 0 1-3 3H5a3 3 0 0 1-3-3v-9a3 3 0 0 1 3-3h2V5Zm2 2h5a3 3 0 0 1 3 3v5h2a1 1 0 0 0 1-1V5a1 1 0 0 0-1-1h-9a1 1 0 0 0-1 1v2ZM5 9a1 1 0 0 0-1 1v9a1 1 0 0 0 1 1h9a1 1 0 0 0 1-1v-9a1 1 0 0 0-1-1H5Z" clip-rule="evenodd"></path></svg></span></span></span></button></div><pre class="hljs syntax-highlighter dark-mode code-sample-pre"><code class="language-text" style="white-space: pre;"><span><span>First, think carefully step by step about what documents are needed to answer the query. Then, print out the TITLE and ID of each document. Then, format the IDs into a list.</span></span></code></pre></div></div><p>From there, you should improve your CoT prompt by auditing failures in your particular examples and evals, and addressing systematic planning and reasoning errors with more explicit instructions. See our cookbook for a prompt example demonstrating a more opinionated reasoning strategy.</p></div></div>
+<div class="expn"><div class="expn-title" role="button" aria-expanded="false" aria-controls="expander-3"><div class="expn-icon"><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor" viewBox="0 0 24 24"><path fill-rule="evenodd" d="M8.293 4.293a1 1 0 0 1 1.414 0l7 7a1 1 0 0 1 0 1.414l-7 7a1 1 0 0 1-1.414-1.414L14.586 12 8.293 5.707a1 1 0 0 1 0-1.414Z" clip-rule="evenodd"></path></svg></div><div class="expn-label">Instruction following</div></div><div class="expn-content hidden" id="expander-3"><p>GPT-4.1 exhibits outstanding instruction-following performance, which developers can leverage to precisely shape and control the outputs for their particular use cases. However, since the model follows instructions more literally than its predecessors, may need to provide more explicit specification around what to do or not do, and existing prompts optimized for other models may not immediately work with this model.</p><div class="anchor-heading-wrapper"><h4 id="recommended-workflow" class="anchor-heading" data-name="recommended-workflow">Recommended Workflow<svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" fill="currentColor" viewBox="0 0 24 24" class="anchor-heading-icon" role="presentation"><path fill-rule="evenodd" d="M18.293 5.707a4.657 4.657 0 0 0-6.586 0l-1 1a1 1 0 1 1-1.414-1.414l1-1a6.657 6.657 0 1 1 9.414 9.414l-1 1a1 1 0 0 1-1.414-1.414l1-1a4.657 4.657 0 0 0 0-6.586Zm-2.586 2.586a1 1 0 0 1 0 1.414l-6 6a1 1 0 0 1-1.414-1.414l6-6a1 1 0 0 1 1.414 0Zm-9 1a1 1 0 0 1 0 1.414l-1 1a4.657 4.657 0 0 0 6.586 6.586l1-1a1 1 0 0 1 1.414 1.414l-1 1a6.657 6.657 0 1 1-9.414-9.414l1-1a1 1 0 0 1 1.414 0Z" clip-rule="evenodd"></path></svg></h4></div><p>Here is our recommended workflow for developing and debugging instructions in prompts:</p><ul>
+<li>Start with an overall “Response Rules” or “Instructions” section with high-level guidance and bullet points.</li>
+<li>If you'd like to change a more specific behavior, add a section containing more details for that category, like <code>## Sample Phrases</code>.</li>
+<li>If there are specific steps you'd like the model to follow in its workflow, add an ordered list and instruct the model to follow these steps.</li>
+<li>If behavior still isn't working as expected, check for conflicting, underspecified, or incorrect` instructions and examples. If there are conflicting instructions, GPT-4.1 tends to follow the one closer to the end of the prompt.</li>
+<li>Add examples that demonstrate desired behavior; ensure that any important behavior demonstrated in your examples are also cited in your rules.</li>
+<li>It's generally not necessary to use all-caps or other incentives like bribes or tips, but developers can experiment with this for extra emphasis if so desired.</li>
+</ul><div class="anchor-heading-wrapper"><h4 id="common-failure-modes" class="anchor-heading" data-name="common-failure-modes">Common Failure Modes<svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" fill="currentColor" viewBox="0 0 24 24" class="anchor-heading-icon" role="presentation"><path fill-rule="evenodd" d="M18.293 5.707a4.657 4.657 0 0 0-6.586 0l-1 1a1 1 0 1 1-1.414-1.414l1-1a6.657 6.657 0 1 1 9.414 9.414l-1 1a1 1 0 0 1-1.414-1.414l1-1a4.657 4.657 0 0 0 0-6.586Zm-2.586 2.586a1 1 0 0 1 0 1.414l-6 6a1 1 0 0 1-1.414-1.414l6-6a1 1 0 0 1 1.414 0Zm-9 1a1 1 0 0 1 0 1.414l-1 1a4.657 4.657 0 0 0 6.586 6.586l1-1a1 1 0 0 1 1.414 1.414l-1 1a6.657 6.657 0 1 1-9.414-9.414l1-1a1 1 0 0 1 1.414 0Z" clip-rule="evenodd"></path></svg></h4></div><p>These failure modes are not unique to GPT-4.1, but we share them here for general awareness and ease of debugging.</p><ul>
+<li>Instructing a model to always follow a specific behavior can occasionally induce adverse effects. For instance, if told “you must call a tool before responding to the user,” models may hallucinate tool inputs or call the tool with null values if they do not have enough information. Adding “if you don’t have enough information to call the tool, ask the user for the information you need” should mitigate this.</li>
+<li>When provided sample phrases, models can use those quotes verbatim and start to sound repetitive to users. Ensure you instruct the model to vary them as necessary.</li>
+<li>Without specific instructions, some models can be eager to provide additional prose to explain their decisions, or output more formatting in responses than may be desired. Provide instructions and potentially examples to help mitigate.</li>
+</ul><p>See our cookbook for an example customer service prompt that demonstrates these principles.</p></div></div>
+<div class="anchor-heading-wrapper"><h2 id="prompting-reasoning-models" class="anchor-heading" data-name="prompting-reasoning-models">Prompting reasoning models<svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" fill="currentColor" viewBox="0 0 24 24" class="anchor-heading-icon" role="presentation"><path fill-rule="evenodd" d="M18.293 5.707a4.657 4.657 0 0 0-6.586 0l-1 1a1 1 0 1 1-1.414-1.414l1-1a6.657 6.657 0 1 1 9.414 9.414l-1 1a1 1 0 0 1-1.414-1.414l1-1a4.657 4.657 0 0 0 0-6.586Zm-2.586 2.586a1 1 0 0 1 0 1.414l-6 6a1 1 0 0 1-1.414-1.414l6-6a1 1 0 0 1 1.414 0Zm-9 1a1 1 0 0 1 0 1.414l-1 1a4.657 4.657 0 0 0 6.586 6.586l1-1a1 1 0 0 1 1.414 1.414l-1 1a6.657 6.657 0 1 1-9.414-9.414l1-1a1 1 0 0 1 1.414 0Z" clip-rule="evenodd"></path></svg></h2></div>
+<p>There are some differences to consider when prompting a <a href="https://platform.openai.com/docs/guides/reasoning">reasoning model</a> versus prompting a GPT model. Generally speaking, reasoning models will provide better results on tasks with only high-level guidance. This differs from GPT models, which benefit from very precise instructions.</p>
+<p>You could think about the difference between reasoning and GPT models like this.</p>
+<ul>
+<li>A reasoning model is like a senior co-worker. You can give them a goal to achieve and trust them to work out the details.</li>
+<li>A GPT model is like a junior coworker. They'll perform best with explicit instructions to create a specific output.</li>
+</ul>
+<p>For more information on best practices when using reasoning models, <a href="https://platform.openai.com/docs/guides/reasoning-best-practices">refer to this guide</a>.</p>
+<div class="anchor-heading-wrapper"><h2 id="next-steps" class="anchor-heading" data-name="next-steps">Next steps<svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" fill="currentColor" viewBox="0 0 24 24" class="anchor-heading-icon" role="presentation"><path fill-rule="evenodd" d="M18.293 5.707a4.657 4.657 0 0 0-6.586 0l-1 1a1 1 0 1 1-1.414-1.414l1-1a6.657 6.657 0 1 1 9.414 9.414l-1 1a1 1 0 0 1-1.414-1.414l1-1a4.657 4.657 0 0 0 0-6.586Zm-2.586 2.586a1 1 0 0 1 0 1.414l-6 6a1 1 0 0 1-1.414-1.414l6-6a1 1 0 0 1 1.414 0Zm-9 1a1 1 0 0 1 0 1.414l-1 1a4.657 4.657 0 0 0 6.586 6.586l1-1a1 1 0 0 1 1.414 1.414l-1 1a6.657 6.657 0 1 1-9.414-9.414l1-1a1 1 0 0 1 1.414 0Z" clip-rule="evenodd"></path></svg></h2></div>
+<p>Now that you known the basics of text inputs and outputs, you might want to check out one of these resources next.</p>
+<a href="https://platform.openai.com/playground"><div class="icon-item mt-2"><div class="icon-item-icon"><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor" viewBox="0 0 24 24"><path fill-rule="evenodd" d="M15.24 3.486v.002l-1.056 4.517h5.823c1.726 0 2.596 2.021 1.518 3.3l-.002.003-9.308 10.965-.002.002c-1.397 1.656-3.922.223-3.454-1.761v-.002l1.057-4.517H3.993c-1.726 0-2.596-2.021-1.519-3.3l.003-.003 9.308-10.965.002-.002c1.397-1.656 3.922-.223 3.454 1.76Zm-1.95-.444-1.34 5.735a.998.998 0 0 0 .973 1.226h7.074a.04.04 0 0 1 .003.01.045.045 0 0 1-.004.005l-9.287 10.94 1.341-5.735a.998.998 0 0 0-.973-1.226H4.003a.041.041 0 0 1-.003-.01l.004-.005 9.287-10.94Z" clip-rule="evenodd"></path></svg></div><div class="icon-item-right"><div class="icon-item-title"><div class="icon-item-title body-large">Build a prompt in the Playground</div><div class="pointer"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24"><path fill-rule="evenodd" d="M9.293 7.293a1 1 0 0 1 1.414 0l4 4a1 1 0 0 1 0 1.414l-4 4a1 1 0 0 1-1.414-1.414L12.586 12 9.293 8.707a1 1 0 0 1 0-1.414Z" clip-rule="evenodd"></path></svg></div></div><div class="icon-item-desc body-small"><p>Use the Playground to develop and iterate on prompts.</p></div></div></div></a>
+<a href="https://platform.openai.com/docs/guides/structured-outputs"><div class="icon-item mt-2"><div class="icon-item-icon"><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor" viewBox="0 0 24 24"><path fill-rule="evenodd" d="M12.5 3.444a1 1 0 0 0-1 0l-6.253 3.61 6.768 3.807 6.955-3.682-6.47-3.735Zm7.16 5.632L13 12.602v7.666l6.16-3.556a1 1 0 0 0 .5-.867V9.076ZM11 20.268v-7.683L4.34 8.839v7.006a1 1 0 0 0 .5.867L11 20.268Zm-.5-18.557a3 3 0 0 1 3 0l6.66 3.846a3 3 0 0 1 1.5 2.598v7.69a3 3 0 0 1-1.5 2.598L13.5 22.29a3 3 0 0 1-3 0l-6.66-3.846a3 3 0 0 1-1.5-2.598v-7.69a3 3 0 0 1 1.5-2.598L10.5 1.71Z" clip-rule="evenodd"></path></svg></div><div class="icon-item-right"><div class="icon-item-title"><div class="icon-item-title body-large">Generate JSON data with Structured Outputs</div><div class="pointer"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24"><path fill-rule="evenodd" d="M9.293 7.293a1 1 0 0 1 1.414 0l4 4a1 1 0 0 1 0 1.414l-4 4a1 1 0 0 1-1.414-1.414L12.586 12 9.293 8.707a1 1 0 0 1 0-1.414Z" clip-rule="evenodd"></path></svg></div></div><div class="icon-item-desc body-small"><p>Ensure JSON data emitted from a model conforms to a JSON schema.</p></div></div></div></a>
+<a href="https://platform.openai.com/docs/api-reference/responses"><div class="icon-item mt-2"><div class="icon-item-icon"><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor" viewBox="0 0 24 24"><path fill-rule="evenodd" d="M14.447 7.106a1 1 0 0 1 .447 1.341l-4 8a1 1 0 1 1-1.788-.894l4-8a1 1 0 0 1 1.341-.447ZM6.6 7.2a1 1 0 0 1 .2 1.4L4.25 12l2.55 3.4a1 1 0 0 1-1.6 1.2l-3-4a1 1 0 0 1 0-1.2l3-4a1 1 0 0 1 1.4-.2Zm10.8 0a1 1 0 0 1 1.4.2l3 4a1 1 0 0 1 0 1.2l-3 4a1 1 0 0 1-1.6-1.2l2.55-3.4-2.55-3.4a1 1 0 0 1 .2-1.4Z" clip-rule="evenodd"></path></svg></div><div class="icon-item-right"><div class="icon-item-title"><div class="icon-item-title body-large">Full API reference</div><div class="pointer"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24"><path fill-rule="evenodd" d="M9.293 7.293a1 1 0 0 1 1.414 0l4 4a1 1 0 0 1 0 1.414l-4 4a1 1 0 0 1-1.414-1.414L12.586 12 9.293 8.707a1 1 0 0 1 0-1.414Z" clip-rule="evenodd"></path></svg></div></div><div class="icon-item-desc body-small"><p>Check out all the options for text generation in the API reference.</p></div></div></div></a></div></div><div class="XhE37"><div class="flex flex-col gap-2 min-w-[200px]"><div data-state="closed"><button id="select-trigger-radix-:r1g:" type="button" class="ICo9Y" data-block="" data-variant="fill" data-size="md" data-gutter-size="md" aria-haspopup="dialog" aria-expanded="false" aria-controls="radix-:r1i:" data-state="closed"><span class="RWOJJ">Responses</span><div class="relative flex items-center gap-2"><svg width="8" height="11" viewBox="0 0 10 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="uF-Qb"><path fill-rule="evenodd" clip-rule="evenodd" d="M4.34151 0.747423C4.71854 0.417526 5.28149 0.417526 5.65852 0.747423L9.65852 4.24742C10.0742 4.61111 10.1163 5.24287 9.75259 5.6585C9.38891 6.07414 8.75715 6.11626 8.34151 5.75258L5.00001 2.82877L1.65852 5.75258C1.24288 6.11626 0.61112 6.07414 0.247438 5.6585C-0.116244 5.24287 -0.0741267 4.61111 0.34151 4.24742L4.34151 0.747423ZM0.246065 10.3578C0.608879 9.94139 1.24055 9.89795 1.65695 10.2608L5.00001 13.1737L8.34308 10.2608C8.75948 9.89795 9.39115 9.94139 9.75396 10.3578C10.1168 10.7742 10.0733 11.4058 9.65695 11.7687L5.65695 15.2539C5.28043 15.582 4.7196 15.582 4.34308 15.2539L0.343082 11.7687C-0.0733128 11.4058 -0.116749 10.7742 0.246065 10.3578Z"></path></svg></div></button></div></div><nav class="PnGij"><div class="saDyQ"><div class="_8Szd1"><div class="NXaXx" style="--active-track-top: 255px; --active-track-height: 24px;"></div></div><ul class="x--yJ"><li class="MuoWh"><a class="hgAgD" data-active="false" href="https://platform.openai.com/docs/guides/text#page-top"><span class="tkrBK" aria-hidden="true">Text input and output</span>Text input and output</a></li><li class="MuoWh"><a class="hgAgD" data-active="false" href="https://platform.openai.com/docs/guides/text#choosing-a-model"><span class="tkrBK" aria-hidden="true">Choosing a model</span>Choosing a model</a></li><li class="MuoWh"><a class="hgAgD" data-active="false" href="https://platform.openai.com/docs/guides/text#prompt-engineering"><span class="tkrBK" aria-hidden="true">Prompt engineering</span>Prompt engineering</a></li><li class="MuoWh"><a class="hgAgD" data-active="false" href="https://platform.openai.com/docs/guides/text#message-roles-and-instruction-following"><span class="tkrBK" aria-hidden="true">Message roles and instruction following</span>Message roles and instruction following</a></li><li class="MuoWh"><a class="hgAgD" data-active="false" href="https://platform.openai.com/docs/guides/text#message-formatting-with-markdown-and-xml"><span class="tkrBK" aria-hidden="true">Message formatting</span>Message formatting</a></li><li class="MuoWh"><a class="hgAgD" data-active="false" href="https://platform.openai.com/docs/guides/text#few-shot-learning"><span class="tkrBK" aria-hidden="true">Few-shot learning</span>Few-shot learning</a></li><li class="MuoWh"><a class="hgAgD" data-active="false" href="https://platform.openai.com/docs/guides/text#include-relevant-context-information"><span class="tkrBK" aria-hidden="true">Include relevant context</span>Include relevant context</a></li><li class="MuoWh"><a class="hgAgD" data-active="true" href="https://platform.openai.com/docs/guides/text#prompting-gpt-4-1-models"><span class="tkrBK" aria-hidden="true">Prompt GPT-4.1 models</span>Prompt GPT-4.1 models</a></li><li class="MuoWh"><a class="hgAgD" data-active="false" href="https://platform.openai.com/docs/guides/text#prompting-reasoning-models"><span class="tkrBK" aria-hidden="true">Prompt reasoning models</span>Prompt reasoning models</a></li><li class="MuoWh"><a class="hgAgD" data-active="false" href="https://platform.openai.com/docs/guides/text#next-steps"><span class="tkrBK" aria-hidden="true">Next steps</span>Next steps</a></li></ul></div></nav></div></div></div></div></div></div></span></div></div></div></div></div></main><div data-testid="compliance-management-wrapper"></div></div><div class="layers-root"></div></div>
+      <script nonce="" nomodule="">!function(){var e=document,t=e.createElement("script");if(!("noModule"in t)&&"onbeforeload"in t){var n=!1;e.addEventListener("beforeload",(function(e){if(e.target===t)n=!0;else if(!e.target.hasAttribute("nomodule")||!n)return;e.preventDefault()}),!0),t.type="module",t.src=".",e.head.appendChild(t),t.remove()}}();</script>
+      <script nonce="" nomodule="" crossorigin="" id="vite-legacy-polyfill" src="./text-prompt_files/polyfills-legacy-BGdHySb8.js"></script>
+      <script nonce="" nomodule="" crossorigin="" id="vite-legacy-entry" data-src="/static/index-legacy-mPQHZO_k.js">System.import(document.getElementById('vite-legacy-entry').getAttribute('data-src'))</script>
+    
+
+<div class="CRjGu"></div><iframe id="intercom-frame" style="position: absolute !important; opacity: 0 !important; width: 1px !important; height: 1px !important; top: 0 !important; left: 0 !important; border: none !important; display: block !important; z-index: -1 !important; pointer-events: none;" aria-hidden="true" tabindex="-1" title="Intercom" src="./text-prompt_files/saved_resource.html"></iframe><div class="intercom-lightweight-app"><style id="intercom-lightweight-app-style" type="text/css">
+  @keyframes intercom-lightweight-app-launcher {
+    from {
+      opacity: 0;
+      transform: scale(0.5);
+    }
+    to {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+
+  @keyframes intercom-lightweight-app-gradient {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+
+  @keyframes intercom-lightweight-app-messenger {
+    0% {
+      opacity: 0;
+      transform: scale(0);
+    }
+    40% {
+      opacity: 1;
+    }
+    100% {
+      transform: scale(1);
+    }
+  }
+
+  .intercom-lightweight-app {
+    position: fixed;
+    z-index: 2147483001;
+    width: 0;
+    height: 0;
+    font-family: intercom-font, "Helvetica Neue", "Apple Color Emoji", Helvetica, Arial, sans-serif;
+  }
+
+  .intercom-lightweight-app-gradient {
+    position: fixed;
+    z-index: 2147483002;
+    width: 500px;
+    height: 500px;
+    bottom: 0;
+    right: 0;
+    pointer-events: none;
+    background: radial-gradient(
+      ellipse at bottom right,
+      rgba(29, 39, 54, 0.16) 0%,
+      rgba(29, 39, 54, 0) 72%);
+    animation: intercom-lightweight-app-gradient 200ms ease-out;
+  }
+
+  .intercom-lightweight-app-launcher {
+    position: fixed;
+    z-index: 2147483003;
+    padding: 0 !important;
+    margin: 0 !important;
+    border: none;
+    bottom: 20px;
+    right: 20px;
+    max-width: 48px;
+    width: 48px;
+    max-height: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background: #202123;
+    cursor: pointer;
+    box-shadow: 0 1px 6px 0 rgba(0, 0, 0, 0.06), 0 2px 32px 0 rgba(0, 0, 0, 0.16);
+    transition: transform 167ms cubic-bezier(0.33, 0.00, 0.00, 1.00);
+    box-sizing: content-box;
+  }
+
+
+  .intercom-lightweight-app-launcher:hover {
+    transition: transform 250ms cubic-bezier(0.33, 0.00, 0.00, 1.00);
+    transform: scale(1.1)
+  }
+
+  .intercom-lightweight-app-launcher:active {
+    transform: scale(0.85);
+    transition: transform 134ms cubic-bezier(0.45, 0, 0.2, 1);
+  }
+
+
+  .intercom-lightweight-app-launcher:focus {
+    outline: none;
+
+    
+  }
+
+  .intercom-lightweight-app-launcher-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 48px;
+    height: 48px;
+    transition: transform 100ms linear, opacity 80ms linear;
+  }
+
+  .intercom-lightweight-app-launcher-icon-open {
+    
+        opacity: 1;
+        transform: rotate(0deg) scale(1);
+      
+  }
+
+  .intercom-lightweight-app-launcher-icon-open svg {
+    width: 24px;
+    height: 24px;
+  }
+
+  .intercom-lightweight-app-launcher-icon-open svg path {
+    fill: rgb(255, 255, 255);
+  }
+
+  .intercom-lightweight-app-launcher-icon-self-serve {
+    
+        opacity: 1;
+        transform: rotate(0deg) scale(1);
+      
+  }
+
+  .intercom-lightweight-app-launcher-icon-self-serve svg {
+    height: 44px;
+  }
+
+  .intercom-lightweight-app-launcher-icon-self-serve svg path {
+    fill: rgb(255, 255, 255);
+  }
+
+  .intercom-lightweight-app-launcher-custom-icon-open {
+    max-height: 24px;
+    max-width: 24px;
+
+    
+        opacity: 1;
+        transform: rotate(0deg) scale(1);
+      
+  }
+
+  .intercom-lightweight-app-launcher-icon-minimize {
+    
+        opacity: 0;
+        transform: rotate(-60deg) scale(0);
+      
+  }
+
+  .intercom-lightweight-app-launcher-icon-minimize svg path {
+    fill: rgb(255, 255, 255);
+  }
+
+  .intercom-lightweight-app-messenger {
+    position: fixed;
+    z-index: 2147483003;
+    overflow: hidden;
+    background-color: white;
+    animation: intercom-lightweight-app-messenger 250ms cubic-bezier(0, 1, 1, 1);
+    transform-origin: bottom right;
+
+    
+        width: 400px;
+        height: calc(100% - 40px);
+        max-height: 704px;
+        min-height: 250px;
+        right: 20px;
+        bottom: 20px;
+        box-shadow: 0 5px 40px rgba(0,0,0,0.16);
+      
+
+    border-radius: 16px;
+  }
+
+  .intercom-lightweight-app-messenger-header {
+    height: 64px;
+    border-bottom: none;
+    background: white
+  }
+
+  .intercom-lightweight-app-messenger-footer{
+    position:absolute;
+    bottom:0;
+    width: 100%;
+    height: 80px;
+    background: #fff;
+    font-size: 14px;
+    line-height: 21px;
+    border-top: 1px solid rgba(0, 0, 0, 0.05);
+    box-shadow: 0px 0px 25px rgba(0, 0, 0, 0.05);
+  }
+
+  @media print {
+    .intercom-lightweight-app {
+      display: none;
+    }
+  }
+</style></div></body></html>
