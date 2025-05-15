@@ -155,18 +155,6 @@ def scrape_content(
         except Exception as e:
             output["html_str"] = {"error": str(e)}
 
-    # Determine top-level title & content
-    # if html_str is not None and html_str_meta:
-    #     output["title"] = html_str_meta.get("title")
-    #     output["content"] = html_str_body
-    # elif html_file is not None and html_file_meta:
-    #     output["title"] = html_file_meta.get("title")
-    #     output["content"] = html_file_body
-    # elif url_results:
-    #     first = url_results[0]
-    #     output["title"] = first.get("title")
-    #     output["content"] = first.get("content")
-
     return output
 
 
