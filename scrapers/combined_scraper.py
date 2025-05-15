@@ -74,6 +74,48 @@ def extract_body_and_meta_from_html(html: str) -> Tuple[str, Dict[str, Any]]:
     return body_text, combined_meta
 
 
+def safe_extract(fn, *args, error_key=None):
+    """
+    Helper to run an extraction function and catch exceptions.
+    Returns (success, result_dict)
+    """
+    try:
+        body, meta = fn(*args)
+        return True, {
+            "title": meta.get("title"),
+            "content": body,
+            "beautifulsoup_metadata": meta.get("beautifulsoup_metadata"),
+            "trafilatura_metadata": meta.get("trafilatura_metadata"),
+        }
+    except requests.exceptions.HTTPError as e:
+        # TODO: Handle HTTP errors: https://github.com/marksuguitan/beautrafil-scrape/issues/2
+
+        err = {error_key or "error": f"HTTP error: {e.response.status_code}"}
+
+        print(
+            {
+                "status_code": e.response.status_code,
+                "url": args[0],
+                "error": str(e),
+                error_key or "error": f"HTTP error: {e.response.status_code}",
+            }
+        )
+
+        if error_key == "url":
+            err["url"] = args[0]
+        elif error_key == "file":
+            err["file"] = args[0]
+        return False, err
+    except Exception as e:
+        print(f"Error: {e}")
+        err = {error_key or "error": str(e)}
+        if error_key == "url":
+            err["url"] = args[0]
+        elif error_key == "file":
+            err["file"] = args[0]
+        return False, err
+
+
 def extract_from_url(url: str) -> Tuple[str, Dict[str, Any]]:
     """
     Fetches HTML via requests, then runs combined extraction.
@@ -112,48 +154,18 @@ def scrape_content(
     url_results: List[Dict[str, Any]] = []
     if urls is not None:
         for url in urls:
-            try:
-                body, meta = extract_from_url(url)
-                url_results.append(
-                    {
-                        "title": meta.get("title"),
-                        "content": body,
-                        "beautifulsoup_metadata": meta.get("beautifulsoup_metadata"),
-                        "trafilatura_metadata": meta.get("trafilatura_metadata"),
-                    }
-                )
-            except Exception as e:
-                url_results.append({"url": url, "error": str(e)})
+            _, result = safe_extract(extract_from_url, url, error_key="url")
+            url_results.append(result)
     if url_results:
         output["urls"] = url_results
 
-    html_file_body = ""
-    html_file_meta: Dict[str, Any] = {}
     if html_file is not None:
-        try:
-            html_file_body, html_file_meta = extract_from_file(html_file)
-            output["html_file"] = {
-                "title": html_file_meta.get("title"),
-                "content": html_file_body,
-                "beautifulsoup_metadata": html_file_meta.get("beautifulsoup_metadata"),
-                "trafilatura_metadata": html_file_meta.get("trafilatura_metadata"),
-            }
-        except Exception as e:
-            output["html_file"] = {"file": html_file, "error": str(e)}
+        success, result = safe_extract(extract_from_file, html_file, error_key="file")
+        output["html_file"] = result
 
-    html_str_body = ""
-    html_str_meta: Dict[str, Any] = {}
     if html_str is not None:
-        try:
-            html_str_body, html_str_meta = extract_body_and_meta_from_html(html_str)
-            output["html_str"] = {
-                "title": html_str_meta.get("title"),
-                "content": html_str_body,
-                "beautifulsoup_metadata": html_str_meta.get("beautifulsoup_metadata"),
-                "trafilatura_metadata": html_str_meta.get("trafilatura_metadata"),
-            }
-        except Exception as e:
-            output["html_str"] = {"error": str(e)}
+        success, result = safe_extract(extract_body_and_meta_from_html, html_str)
+        output["html_str"] = result
 
     return output
 
