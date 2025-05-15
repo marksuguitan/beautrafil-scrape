@@ -134,6 +134,48 @@ def extract_from_file(path: str) -> Tuple[str, Dict[str, Any]]:
     return extract_body_and_meta_from_html(html)
 
 
+def clean_article_title(url_result: Dict[str, Any]) -> None:
+    """
+    Cleans the title fields in url_result dict if the source is PubMed.
+    Modifies url_result in place.
+    """
+    url = None
+    trafil_source = url_result.get("trafilatura_metadata", {}).get("source")
+    if trafil_source:
+        url = trafil_source
+    if not url:
+        bs_og_url = url_result.get("beautifulsoup_metadata", {}).get("og:url")
+        if bs_og_url:
+            url = bs_og_url
+    if not url:
+        for k, v in url_result.get("beautifulsoup_metadata", {}).items():
+            if k.endswith("url") and isinstance(v, str) and "pubmed" in v.lower():
+                url = v
+                break
+
+    def _clean(title):
+        if title is None:
+            return title
+        if url and "pubmed" in url.lower():
+            return title.removesuffix(" - PubMed")
+        return title
+
+    if url_result.get("title"):
+        url_result["title"] = _clean(url_result["title"])
+    if "trafilatura_metadata" in url_result and url_result["trafilatura_metadata"].get(
+        "title"
+    ):
+        url_result["trafilatura_metadata"]["title"] = _clean(
+            url_result["trafilatura_metadata"]["title"]
+        )
+    if "beautifulsoup_metadata" in url_result and url_result[
+        "beautifulsoup_metadata"
+    ].get("title"):
+        url_result["beautifulsoup_metadata"]["title"] = _clean(
+            url_result["beautifulsoup_metadata"]["title"]
+        )
+
+
 def scrape_content(
     urls: Optional[List[str]] = None,
     html_file: Optional[str] = None,
@@ -157,6 +199,8 @@ def scrape_content(
             _, result = safe_extract(extract_from_url, url, error_key="url")
             url_results.append(result)
     if url_results:
+        for url_result in url_results:
+            clean_article_title(url_result)
         output["urls"] = url_results
 
     if html_file is not None:
