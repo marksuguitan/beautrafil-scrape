@@ -3,6 +3,9 @@ import json
 import trafilatura
 from typing import Tuple, Dict, Any, List, Optional
 from bs4 import BeautifulSoup
+from datetime import date
+import psycopg
+import os
 
 
 # TODO: Handle 403s
@@ -214,12 +217,76 @@ def scrape_content(
     return output
 
 
-if __name__ == "__main__":
-    # Example usage
-    urls_list = ["https://example.com/some-article"]
-    raw_html = "<html><head><title>Test</title></head><body>Hello World</body></html>"
+def save_scraped_data(scraped: Dict[str, Any]) -> None:
+    """
+    Saves the scraped data into the database.
+    Uses similar functionality to db.py.
+    """
+    # Build DSN from environment or default values
+    DB_PARAMS = {
+        "host": os.getenv("PGHOST", "localhost"),
+        "port": os.getenv("PGPORT", "5432"),
+        "dbname": os.getenv("POSTGRES_DB", "mydb"),
+        "user": os.getenv("POSTGRES_USER", "postgres"),
+        "password": os.getenv("POSTGRES_PASSWORD", "postgres"),
+    }
+    DSN = " ".join(f"{k}={v}" for k, v in DB_PARAMS.items())
 
-    result = scrape_content(
-        urls=urls_list, html_file="build/index.html", html_str=raw_html
-    )
+    with psycopg.connect(DSN) as conn:
+        with conn.cursor() as cur:
+            # Use scraped data with priority: html_str > html_file > first URL result
+            if "html_str" in scraped:
+                record = scraped["html_str"]
+            elif "html_file" in scraped:
+                record = scraped["html_file"]
+            elif "urls" in scraped and scraped["urls"]:
+                record = scraped["urls"][0]
+            else:
+                record = {"title": "No Title", "content": ""}
+
+            title = record.get("title", "No Title")
+            content = record.get("content", "")
+            publication_date = date.today()
+            status = ""
+            cur.execute(
+                """
+                INSERT INTO documents
+                  (title, content, publication_date, extraction_source, status)
+                VALUES
+                  (%(title)s, %(content)s, %(publication_date)s)
+                RETURNING id;
+                """,
+                {
+                    "title": title,
+                    "content": content,
+                    "publication_date": publication_date,
+                },
+            )
+            document_id = cur.fetchone()[0]
+            print("▶ Created document:", document_id)
+
+            cur.execute(
+                """
+                INSERT INTO raw_documents
+                  (document_id, version_number, raw_data, ingested_by, format, source_reference)
+                VALUES
+                  (%(document_id)s, %(version_number)s, %(raw_data)s, %(ingested_by)s, %(format)s, %(source_reference)s);
+                """,
+                {
+                    "document_id": document_id,
+                    "version_number": 1,
+                    "raw_data": json.dumps(record),
+                    "ingested_by": "combined_scraper",
+                    "format": "json",
+                    "source_reference": f"combined_scraper_{date.today().isoformat()}",
+                },
+            )
+            print("▶ Inserted raw_documents v1 for:", document_id)
+
+
+if __name__ == "__main__":
+    urls_list = ["https://pubmed.ncbi.nlm.nih.gov/26460662/"]
+    # Optionally, set html_file or html_str if needed
+    result = scrape_content(urls=urls_list)
     print(json.dumps(result, indent=2))
+    save_scraped_data(result)
