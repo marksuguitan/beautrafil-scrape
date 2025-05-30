@@ -76,39 +76,29 @@ def extract_body_and_meta_from_html(html: str) -> Tuple[str, Dict[str, Any]]:
 
     return body_text, combined_meta
 
-
-def safe_extract(fn, *args, error_key=None):
-    """
-    Helper to run an extraction function and catch exceptions.
-    Returns (success, result_dict)
-    """
+def safe_extract(fn, *args, error_key=None, **kwargs):
     try:
-        body, meta = fn(*args)
-        return True, {
-            "title": meta.get("title"),
-            "content": body,
-            "beautifulsoup_metadata": meta.get("beautifulsoup_metadata"),
-            "trafilatura_metadata": meta.get("trafilatura_metadata"),
-        }
+        _plain, meta = fn(*args, **kwargs)   # meta already has the desired shape
+        return True, meta
     except requests.exceptions.HTTPError as e:
-        # TODO: Handle HTTP errors: https://github.com/marksuguitan/beautrafil-scrape/issues/2
-
-        err = {error_key or "error": f"HTTP error: {e.response.status_code}"}
-
-        print(
-            {
-                "status_code": e.response.status_code,
-                "url": args[0],
-                "error": str(e),
-                error_key or "error": f"HTTP error: {e.response.status_code}",
-            }
-        )
-
-        if error_key == "url":
-            err["url"] = args[0]
-        elif error_key == "file":
-            err["file"] = args[0]
-        return False, err
+            # TODO: Handle HTTP errors: https://github.com/marksuguitan/beautrafil-scrape/issues/2
+    
+            err = {error_key or "error": f"HTTP error: {e.response.status_code}"}
+    
+            print(
+                {
+                    "status_code": e.response.status_code,
+                    "url": args[0],
+                    "error": str(e),
+                    error_key or "error": f"HTTP error: {e.response.status_code}",
+                }
+            )
+    
+            if error_key == "url":
+                err["url"] = args[0]
+            elif error_key == "file":
+                err["file"] = args[0]
+            return False, err
     except Exception as e:
         print(f"Error: {e}")
         err = {error_key or "error": str(e)}
