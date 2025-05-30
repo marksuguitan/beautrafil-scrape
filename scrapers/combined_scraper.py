@@ -30,51 +30,75 @@ def extract_bs_metadata(html: str) -> Dict[str, Any]:
 
     return bs_meta
 
+# ---------------- Structured-content presets (one place) ----------------
+_MARKDOWN_OPTS = dict(
+    output_format="markdown",
+    include_links=True,
+    include_formatting=True,
+    include_comments=False,
+    favor_precision=False,
+)
+_HTML_OPTS = dict(
+    output_format="html",
+    include_links=True,
+    include_formatting=True,
+    include_comments=False,
+    favor_precision=False,
+)
 
+# ------------------------------------------------------------------------
 def extract_body_and_meta_from_html(html: str) -> Tuple[str, Dict[str, Any]]:
     """
-    1) Runs Trafilatura on the raw HTML to get body text + its metadata.
-    2) Runs BeautifulSoup on the raw HTML to get all <meta> tags.
-    3) Combines both into a single metadata dict:
-       {
-         title: ...,
-         beautifulsoup_metadata: {...},
-         trafilatura_metadata: {...}
-       }
-    Returns: (body_text, combined_metadata)
+    Returns:
+        plain_text,
+        combined_metadata shaped exactly like
+
+        {
+          "title": "...",
+          "content": {
+              "plain_text": "...",
+              "structured_markdown": "...",
+              "structured_html": "..."
+          },
+          "beautifulsoup_metadata": { ... },
+          "trafilatura_metadata":   { ... }
+        }
     """
+    # --- BeautifulSoup meta -------------------------------------------------
     bs_meta = extract_bs_metadata(html)
 
-    result_json = trafilatura.extract(
+    # --- Plain text (+ Trafilatura meta) ------------------------------------
+    json_str = trafilatura.extract(
         html,
         output_format="json",
         with_metadata=True,
         include_comments=False,
         favor_precision=False,
-    )
-    if not result_json:
-        return "", {
-            "title": bs_meta.get("title", ""),
-            "beautifulsoup_metadata": bs_meta,
-            "trafilatura_metadata": {},
-        }
-
-    data = json.loads(result_json)
-    body_text = data.get("text", "")
+    ) or "{}"
+    data        = json.loads(json_str)
+    plain_text  = data.get("text", "")
 
     trafil_meta = {
         k: data.get(k)
-        for k in ("title", "author", "date", "keywords", "description", "source")
+        for k in ("title", "author", "date",
+                  "keywords", "description", "source")
     }
 
-    title = bs_meta.get("title", "")
-    combined_meta = {
-        "title": title,
+    # --- Structured versions (MD + HTML) ------------------------------------
+    structured_md  = trafilatura.extract(html, **_MARKDOWN_OPTS) or ""
+    structured_htm = trafilatura.extract(html, **_HTML_OPTS)    or ""
+
+    combined = {
+        "title": bs_meta.get("title", ""),
+        "content": {
+            "plain_text": plain_text,
+            "structured_markdown": structured_md,
+            "structured_html": structured_htm,
+        },
         "beautifulsoup_metadata": bs_meta,
-        "trafilatura_metadata": trafil_meta,
+        "trafilatura_metadata":   trafil_meta,
     }
-
-    return body_text, combined_meta
+    return plain_text, combined
 
 def safe_extract(fn, *args, error_key=None, **kwargs):
     try:
