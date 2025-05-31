@@ -234,6 +234,9 @@ def scrape_content(
         success, result = safe_extract(extract_body_and_meta_from_html, html_str)
         output["html_str"] = result
 
+    # Add schema_version key
+    output["schema_version"] = 1
+
     return output
 
 
