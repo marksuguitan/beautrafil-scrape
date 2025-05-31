@@ -223,6 +223,8 @@ def scrape_content(
             # Add schema_version to each url result
             if isinstance(result, dict):
                 result["schema_version"] = "1"
+                result["data_source"] = "url"
+
             url_results.append(result)
     if url_results:
         for url_result in url_results:
@@ -233,12 +235,14 @@ def scrape_content(
         success, result = safe_extract(extract_from_file, html_file, error_key="file")
         if isinstance(result, dict):
             result["schema_version"] = "1"
+            result["data_source"] = "html_file"
         output["html_file"] = result
 
     if html_str is not None:
         success, result = safe_extract(extract_body_and_meta_from_html, html_str)
         if isinstance(result, dict):
             result["schema_version"] = "1"
+            result["data_source"] = "html_str"
         output["html_str"] = result
 
     return output
