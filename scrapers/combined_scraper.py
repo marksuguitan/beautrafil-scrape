@@ -6,6 +6,7 @@ from bs4 import BeautifulSoup
 from datetime import date
 import psycopg
 import os
+import jsonschema
 
 
 # TODO: Handle 403s
@@ -236,6 +237,14 @@ def scrape_content(
     return output
 
 
+def validate_output_schema(
+    data: dict, schema_path: str = "../output/data_structures/output_schema.json"
+):
+    with open(schema_path, "r") as f:
+        schema = json.load(f)
+    jsonschema.validate(instance=data, schema=schema)
+
+
 def save_scraped_data(scraped: Dict[str, Any]) -> None:
     """
     Saves the scraped data into the database.
@@ -250,6 +259,9 @@ def save_scraped_data(scraped: Dict[str, Any]) -> None:
         "password": os.getenv("POSTGRES_PASSWORD", "postgres"),
     }
     DSN = " ".join(f"{k}={v}" for k, v in DB_PARAMS.items())
+
+    # --- Add validation here ---
+    validate_output_schema(record)
 
     with psycopg.connect(DSN) as conn:
         with conn.cursor() as cur:
