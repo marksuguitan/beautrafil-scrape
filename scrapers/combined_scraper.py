@@ -270,12 +270,12 @@ def save_scraped_data(scraped: Dict[str, Any]) -> None:
     if "urls" in scraped:
         for url_result in scraped["urls"]:
             validate_output_schema(url_result)
+
     if "html_file" in scraped:
-        for html_result in scraped["html_file"]:
-            validate_output_schema(html_result)
+        validate_output_schema(scraped["html_file"])
+
     if "html_str" in scraped:
-        for html_str_result in scraped["html_str"]:
-            validate_output_schema(html_str_result)
+        validate_output_schema(scraped["html_str"])
 
     with psycopg.connect(DSN) as conn:
         with conn.cursor() as cur:
@@ -324,8 +324,19 @@ def save_scraped_data(scraped: Dict[str, Any]) -> None:
 
 
 if __name__ == "__main__":
-    urls_list = ["https://pubmed.ncbi.nlm.nih.gov/26460662/"]
+    # urls_list = ["https://pubmed.ncbi.nlm.nih.gov/26460662/"]
+    # result = scrape_content(urls=urls_list, html_file=html_file)
+
+    html_file = (
+        "Drugs used for the treatment of hypertensive emergencies - UpToDate.html"
+    )
+    result = scrape_content(
+        urls=None,
+        html_file=html_file,
+        # html_str=None,  # Uncomment if you want to test with a raw HTML string
+    )
+    # html_str = "..."
+
     # Optionally, set html_file or html_str if needed
-    result = scrape_content(urls=urls_list)
     print(json.dumps(result, indent=2))
     save_scraped_data(result)
