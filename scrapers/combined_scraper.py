@@ -248,7 +248,15 @@ def scrape_content(
     return output
 
 
-def validate_output_schema(data: dict, schema_path: str = "scrape_output_schema.json"):
+def validate_output_schema(data: dict, schema_path: str = None):
+    if schema_path is None:
+        schema_path = os.path.join(
+            os.path.dirname(__file__),
+            "..",
+            "data_structures",
+            "V1__scrape_output_schema.json",
+        )
+        schema_path = os.path.abspath(schema_path)
     with open(schema_path, "r") as f:
         schema = json.load(f)
     jsonschema.validate(instance=data, schema=schema)
@@ -328,17 +336,17 @@ def save_scraped_data(scraped: Dict[str, Any]) -> None:
 
 
 if __name__ == "__main__":
-    # urls_list = ["https://pubmed.ncbi.nlm.nih.gov/26460662/"]
-    # result = scrape_content(urls=urls_list, html_file=html_file)
+    urls_list = ["https://pubmed.ncbi.nlm.nih.gov/26460662/"]
+    result = scrape_content(urls=urls_list)
 
-    html_file = (
-        "Drugs used for the treatment of hypertensive emergencies - UpToDate.html"
-    )
-    result = scrape_content(
-        urls=None,
-        html_file=html_file,
-        # html_str=None,  # Uncomment if you want to test with a raw HTML string
-    )
+    # html_file = (
+    #     "Drugs used for the treatment of hypertensive emergencies - UpToDate.html"
+    # )
+    # result = scrape_content(
+    #     urls=None,
+    #     html_file=html_file,
+    #     # html_str=None,  # Uncomment if you want to test with a raw HTML string
+    # )
     # html_str = "..."
 
     # Optionally, set html_file or html_str if needed

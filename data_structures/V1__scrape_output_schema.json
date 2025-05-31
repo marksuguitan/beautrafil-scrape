@@ -1,0 +1,29 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Hyperscrape Output Schema",
+  "type": "object",
+  "properties": {
+    "data_source": { "type": "string" },
+    "schema_version": { "type": "string" },
+    "title": { "type": "string" },
+    "content": {
+      "type": "object",
+      "properties": {
+        "plain_text": { "type": "string" },
+        "structured_html": { "type": "string" },
+        "structured_markdown": { "type": "string" }
+      },
+      "required": ["plain_text", "structured_html", "structured_markdown"]
+    },
+    "beautifulsoup_metadata": { "type": "object" },
+    "trafilatura_metadata": { "type": "object" }
+  },
+  "required": [
+    "data_source",
+    "schema_version",
+    "title",
+    "content",
+    "beautifulsoup_metadata",
+    "trafilatura_metadata"
+  ]
+}
