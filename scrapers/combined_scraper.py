@@ -263,21 +263,19 @@ def save_scraped_data(scraped: Dict[str, Any]) -> None:
             else:
                 record = {"title": "No Title", "content": ""}
 
-            title = record.get("title", "No Title")
-            content = record.get("content", "")
-            publication_date = date.today()
+            title = ""
+            content = ""
             cur.execute(
                 """
                 INSERT INTO documents
-                  (title, content, publication_date, extraction_source, status)
+                  (title, content)
                 VALUES
-                  (%(title)s, %(content)s, %(publication_date)s)
+                  (%(title)s, %(content)s)
                 RETURNING id;
                 """,
                 {
                     "title": title,
                     "content": content,
-                    "publication_date": publication_date,
                 },
             )
             document_id = cur.fetchone()[0]
@@ -286,17 +284,14 @@ def save_scraped_data(scraped: Dict[str, Any]) -> None:
             cur.execute(
                 """
                 INSERT INTO raw_documents
-                  (document_id, version_number, raw_data, ingested_by, format, source_reference)
+                  (document_id, version_number, raw_data)
                 VALUES
-                  (%(document_id)s, %(version_number)s, %(raw_data)s, %(ingested_by)s, %(format)s, %(source_reference)s);
+                  (%(document_id)s, %(version_number)s, %(raw_data)s);
                 """,
                 {
                     "document_id": document_id,
                     "version_number": 1,
                     "raw_data": json.dumps(record),
-                    "ingested_by": "combined_scraper",
-                    "format": "json",
-                    "source_reference": f"combined_scraper_{date.today().isoformat()}",
                 },
             )
             print("▶ Inserted raw_documents v1 for:", document_id)
