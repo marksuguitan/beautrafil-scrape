@@ -220,6 +220,9 @@ def scrape_content(
     if urls is not None:
         for url in urls:
             _, result = safe_extract(extract_from_url, url, error_key="url")
+            # Add schema_version to each url result
+            if isinstance(result, dict):
+                result["schema_version"] = "1"
             url_results.append(result)
     if url_results:
         for url_result in url_results:
@@ -228,21 +231,20 @@ def scrape_content(
 
     if html_file is not None:
         success, result = safe_extract(extract_from_file, html_file, error_key="file")
+        if isinstance(result, dict):
+            result["schema_version"] = "1"
         output["html_file"] = result
 
     if html_str is not None:
         success, result = safe_extract(extract_body_and_meta_from_html, html_str)
+        if isinstance(result, dict):
+            result["schema_version"] = "1"
         output["html_str"] = result
-
-    # Add schema_version key
-    output["schema_version"] = 1
 
     return output
 
 
-def validate_output_schema(
-    data: dict, schema_path: str = "../output/data_structures/output_schema.json"
-):
+def validate_output_schema(data: dict, schema_path: str = "scrape_output_schema.json"):
     with open(schema_path, "r") as f:
         schema = json.load(f)
     jsonschema.validate(instance=data, schema=schema)
@@ -263,8 +265,17 @@ def save_scraped_data(scraped: Dict[str, Any]) -> None:
     }
     DSN = " ".join(f"{k}={v}" for k, v in DB_PARAMS.items())
 
+    # TODO: #7 Determine the the overall scraped schema
     # --- Add validation here ---
-    validate_output_schema(record)
+    if "urls" in scraped:
+        for url_result in scraped["urls"]:
+            validate_output_schema(url_result)
+    if "html_file" in scraped:
+        for html_result in scraped["html_file"]:
+            validate_output_schema(html_result)
+    if "html_str" in scraped:
+        for html_str_result in scraped["html_str"]:
+            validate_output_schema(html_str_result)
 
     with psycopg.connect(DSN) as conn:
         with conn.cursor() as cur:
