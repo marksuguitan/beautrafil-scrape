@@ -30,6 +30,7 @@ def extract_bs_metadata(html: str) -> Dict[str, Any]:
 
     return bs_meta
 
+
 # ---------------- Structured-content presets (one place) ----------------
 _MARKDOWN_OPTS = dict(
     output_format="markdown",
@@ -45,6 +46,7 @@ _HTML_OPTS = dict(
     include_comments=False,
     favor_precision=False,
 )
+
 
 # ------------------------------------------------------------------------
 def extract_body_and_meta_from_html(html: str) -> Tuple[str, Dict[str, Any]]:
@@ -68,25 +70,27 @@ def extract_body_and_meta_from_html(html: str) -> Tuple[str, Dict[str, Any]]:
     bs_meta = extract_bs_metadata(html)
 
     # --- Plain text (+ Trafilatura meta) ------------------------------------
-    json_str = trafilatura.extract(
-        html,
-        output_format="json",
-        with_metadata=True,
-        include_comments=False,
-        favor_precision=False,
-    ) or "{}"
-    data        = json.loads(json_str)
-    plain_text  = data.get("text", "")
+    json_str = (
+        trafilatura.extract(
+            html,
+            output_format="json",
+            with_metadata=True,
+            include_comments=False,
+            favor_precision=False,
+        )
+        or "{}"
+    )
+    data = json.loads(json_str)
+    plain_text = data.get("text", "")
 
     trafil_meta = {
         k: data.get(k)
-        for k in ("title", "author", "date",
-                  "keywords", "description", "source")
+        for k in ("title", "author", "date", "keywords", "description", "source")
     }
 
     # --- Structured versions (MD + HTML) ------------------------------------
-    structured_md  = trafilatura.extract(html, **_MARKDOWN_OPTS) or ""
-    structured_htm = trafilatura.extract(html, **_HTML_OPTS)    or ""
+    structured_md = trafilatura.extract(html, **_MARKDOWN_OPTS) or ""
+    structured_htm = trafilatura.extract(html, **_HTML_OPTS) or ""
 
     combined = {
         "title": bs_meta.get("title", ""),
@@ -96,33 +100,34 @@ def extract_body_and_meta_from_html(html: str) -> Tuple[str, Dict[str, Any]]:
             "structured_html": structured_htm,
         },
         "beautifulsoup_metadata": bs_meta,
-        "trafilatura_metadata":   trafil_meta,
+        "trafilatura_metadata": trafil_meta,
     }
     return plain_text, combined
 
+
 def safe_extract(fn, *args, error_key=None, **kwargs):
     try:
-        _plain, meta = fn(*args, **kwargs)   # meta already has the desired shape
+        _plain, meta = fn(*args, **kwargs)  # meta already has the desired shape
         return True, meta
     except requests.exceptions.HTTPError as e:
-            # TODO: Handle HTTP errors: https://github.com/marksuguitan/beautrafil-scrape/issues/2
-    
-            err = {error_key or "error": f"HTTP error: {e.response.status_code}"}
-    
-            print(
-                {
-                    "status_code": e.response.status_code,
-                    "url": args[0],
-                    "error": str(e),
-                    error_key or "error": f"HTTP error: {e.response.status_code}",
-                }
-            )
-    
-            if error_key == "url":
-                err["url"] = args[0]
-            elif error_key == "file":
-                err["file"] = args[0]
-            return False, err
+        # TODO: Handle HTTP errors: https://github.com/marksuguitan/beautrafil-scrape/issues/2
+
+        err = {error_key or "error": f"HTTP error: {e.response.status_code}"}
+
+        print(
+            {
+                "status_code": e.response.status_code,
+                "url": args[0],
+                "error": str(e),
+                error_key or "error": f"HTTP error: {e.response.status_code}",
+            }
+        )
+
+        if error_key == "url":
+            err["url"] = args[0]
+        elif error_key == "file":
+            err["file"] = args[0]
+        return False, err
     except Exception as e:
         print(f"Error: {e}")
         err = {error_key or "error": str(e)}
@@ -261,7 +266,6 @@ def save_scraped_data(scraped: Dict[str, Any]) -> None:
             title = record.get("title", "No Title")
             content = record.get("content", "")
             publication_date = date.today()
-            status = ""
             cur.execute(
                 """
                 INSERT INTO documents
